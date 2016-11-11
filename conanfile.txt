@@ -4,5 +4,5 @@ SDL2/2.0.4@lasote/stable
 [options]
 SDL:shared=True #False
 
-[generator]
+[generators]
 cmake
