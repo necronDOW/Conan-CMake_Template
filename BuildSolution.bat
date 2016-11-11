@@ -32,7 +32,8 @@ EXIT
 	@ECHO Searching for main.cpp ...
 	IF NOT EXIST main.cpp (
 		@ECHO main.cpp not found, creating blank source ...
-		TYPE main.cpp
+		TYPE nul > main.cpp
+		)
 		@ECHO main.cpp created successfully!
 	)
 	
