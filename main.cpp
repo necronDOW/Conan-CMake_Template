@@ -3,7 +3,7 @@
 
 int main(int argc, char* argv[])
 {
-	std::cout < , "HelloWorld!\n";
+	std::cout << "HelloWorld!\n";
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 	{
