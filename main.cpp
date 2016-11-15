@@ -1,16 +1,11 @@
 #include <iostream>
-#include "SDL.h"
+#include "src/SDL_Instance.h";
+#undef main
 
 int main(int argc, char* argv[])
 {
-	std::cout << "HelloWorld!\n";
-
-	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
-	{
-		SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "SDL_Init Error: %s\n", SDL_GetError());
-		return 1;
-	}
-	SDL_Log("SDL Initialized OK!\n");
+	SDL_Instance* sdl_i = new SDL_Instance("Analytics Tool", 500, 500);
+	system("pause");
 
 	return 0;
 }
