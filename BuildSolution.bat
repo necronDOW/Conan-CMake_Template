@@ -26,6 +26,7 @@ cmake --build . --config Release
 @ECHO.
 @ECHO -- SOLUTION GENERATED SUCCESSFULLY! --
 @ECHO.
+PAUSE
 EXIT
 
 :CHECKCPP
