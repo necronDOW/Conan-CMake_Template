@@ -15,7 +15,10 @@ SDL_Instance::SDL_Instance(char* exeName, int width, int height, bool fullScreen
 	int center = SDL_WINDOWPOS_CENTERED;
 	_window = SDL_CreateWindow(exeName, center, center, width, height, SDL_WINDOW_SHOWN);
 	if (_window == nullptr)
+	{
 		Log("Unable to create SDL window (SDL_CreateWindow).", DebugTools::Error, true);
+		SetFullScreen(fullScreen);
+	}
 	Log("SDL window created successfully.", DebugTools::Info);
 
 	// Create an SDL renderer using the previously created window.

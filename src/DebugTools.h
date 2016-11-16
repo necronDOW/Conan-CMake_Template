@@ -1,6 +1,6 @@
 #ifndef DEBUG_TOOLS_H
 	#define DEBUG_TOOLS_H
-	#define DEBUG_PRIORITY 3
+	#define DEBUG_PRIORITY 5
 
 	#define STD_ERROR_PRIORITY 1
 	#define STD_WARN_PRIORITY 2
@@ -8,6 +8,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <string>
 
 class DebugTools
 {
@@ -20,16 +21,11 @@ class DebugTools
 			Error
 		};
 
-		/* Log a message to the console (+1 overloads):
-		char* text : The message to be displayed (exclude WARNING, ERROR and INFO prefix).
-		LogType type : The type of message to be displayed, determines the prefix. */
-		static void Log(char* text, LogType type);
-
-		/* Log a message to the console (+1 overloads):
-		char* text : The message to be displayed (exclude WARNING, ERROR and INFO prefix).
-		LogType type : The type of message to be displayed, determines the prefix.
-		int priority : Override the standard priorities, lower = higher priority. */
-		static void Log(char* text, LogType type, int priority);
+		/* Log a message to the console:
+			char* text : The message to be displayed (exclude WARNING, ERROR and INFO prefix).
+			LogType type : The type of message to be displayed, determines the prefix.
+			int indent : The number of indents to be prefixed to the message. (default:0)*/
+		static void Log(char* text, LogType type, int indent = 0);
 
 	private:
 		/* Parse the message type into a resultant priority. 

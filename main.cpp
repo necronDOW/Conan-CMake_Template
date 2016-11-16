@@ -1,11 +1,10 @@
 #include <iostream>
-#include "src/SDL_Instance.h";
-#undef main
+#include "src/glContext.h"
 
 int main(int argc, char* argv[])
 {
-	SDL_Instance* sdl_i = new SDL_Instance("Analytics Tool", 500, 500);
-	system("pause");
+	glContext context = glContext("Hello World!", 500, 500, false);
 
+	system("pause");
 	return 0;
 }

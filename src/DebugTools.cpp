@@ -1,22 +1,15 @@
 #include "DebugTools.h"
 
 /* PUBLIC */
-void DebugTools::Log(char* text, LogType type)
+void DebugTools::Log(char* text, LogType type, int indent)
 {
 	int priority = TypeToPriority(type);
-	if (priority <= DEBUG_PRIORITY)
+	if ((priority + indent) <= DEBUG_PRIORITY)
 	{
-		std::cout << PriorityToPrefix(priority) << text << std::endl;
+		std::string tabs(indent * 3, ' ');
+		std::cout << PriorityToPrefix(priority) << tabs.c_str() << text << std::endl;
 	}
 }
-void DebugTools::Log(char* text, LogType type, int priority)
-{
-	if (priority <= DEBUG_PRIORITY)
-	{
-		std::cout << PriorityToPrefix(TypeToPriority(type)) << text << std::endl;
-	}
-}
-
 /* PRIVATE */
 int DebugTools::TypeToPriority(LogType t)
 {
