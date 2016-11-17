@@ -8,14 +8,22 @@
 class glContext
 {
 	public:
+		/* glContext Constructor (+1 overloads).*/
 		glContext();
+		/* glContext Constructor (+1 overloads):
+			char* name : The name which will be displayed on the GL window. 
+			int width : The width of the GL window. 
+			int height : The height of the GL window. 
+			bool isFullscreen : Whether or not the window should be rendered in full screen. */
 		glContext(char* name, int width, int height, bool isFullscreen = false);
 
-		void Log(char* text, DebugTools::LogType type, bool terminate = false);
+		/* glContext Destructor. */
+		~glContext();
+
+		void Log(std::string text, DebugTools::LogType type, bool terminate = false);
 
 		void SetFullScreen(bool value);
 		void SetDimensions(int newWidth, int newHeight);
-		void SetRenderScale(float modifierX, float modifierY);
 
 		char* GetName();
 		SDL_Window* GetWindow();
@@ -27,6 +35,7 @@ class glContext
 		void CreateWindow(int width, int height);
 		void CreateContext();
 		void SetGLAttributes();
+		void CleanExit();
 
 		char* _name;
 		SDL_Window* _window;

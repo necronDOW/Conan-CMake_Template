@@ -8,23 +8,38 @@ glContext::glContext(char* name, int width, int height, bool isFullscreen)
 
 	Initialize();
 	CreateWindow(width, height);
-	//SetFullScreen(isFullscreen);
+	SetFullScreen(isFullscreen);
 	CreateContext();
 	InitGlew();
 
-	//glViewport(0, 0, width, height);
-	//SDL_GL_SwapWindow(_window);
+	glViewport(0, 0, width, height);
+	SDL_GL_SwapWindow(_window);
 }
 
-void glContext::Log(char* text, DebugTools::LogType type, bool terminate)
+glContext::~glContext()
+{
+	CleanExit();
+}
+
+void glContext::Log(std::string text, DebugTools::LogType type, bool terminate)
 {
 	DebugTools::Log(text, type);
 
 	if (terminate)
-	{
-		SDL_GL_DeleteContext(_context);
-		SDL_DestroyWindow(_window);
-	}
+		CleanExit();
+}
+
+void glContext::SetFullScreen(bool value)
+{
+	// Convert the bool value to a flag and set the fullscreen mode.
+	Uint32 flag = value ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0;
+	SDL_SetWindowFullscreen(_window, flag);
+}
+
+void glContext::SetDimensions(int newWidth, int newHeight)
+{
+	// Set the associated window size to the given values.
+	SDL_SetWindowSize(_window, newWidth, newHeight);
 }
 
 void glContext::Initialize()
@@ -39,6 +54,14 @@ void glContext::Initialize()
 
 void glContext::InitGlew()
 {
+	Log("Intitializing GLEW ...", DebugTools::Info);
+
+	glewExperimental = GL_TRUE;
+	GLenum status = glewInit();
+	
+	if (status != GLEW_OK)
+		Log("Unable to initialize GLEW (glewInit).", DebugTools::Error, true);
+	Log("GLEW Initialized successfully!", DebugTools::Info);
 
 }
 
@@ -80,6 +103,14 @@ void glContext::SetGLAttributes()
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, major);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, minor);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+}
+
+void glContext::CleanExit()
+{
+	SDL_GL_DeleteContext(_context);
+
+	SDL_DestroyWindow(_window);
+	_window = nullptr;
 }
 
 char* glContext::GetName() { return _name; }

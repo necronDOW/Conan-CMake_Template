@@ -1,6 +1,6 @@
 #ifndef DEBUG_TOOLS_H
 	#define DEBUG_TOOLS_H
-	#define DEBUG_PRIORITY 5
+	#define DEBUG_PRIORITY 4
 
 	#define STD_ERROR_PRIORITY 1
 	#define STD_WARN_PRIORITY 2
@@ -25,7 +25,7 @@ class DebugTools
 			char* text : The message to be displayed (exclude WARNING, ERROR and INFO prefix).
 			LogType type : The type of message to be displayed, determines the prefix.
 			int indent : The number of indents to be prefixed to the message. (default:0)*/
-		static void Log(char* text, LogType type, int indent = 0);
+		static void Log(std::string text, LogType type, int indent = 0);
 
 	private:
 		/* Parse the message type into a resultant priority. 

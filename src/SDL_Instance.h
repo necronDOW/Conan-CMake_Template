@@ -12,8 +12,9 @@ class SDL_Instance
 		/* SDL_Instance Constructor (+1 overloads):
 			char* exeName : The name which will be displayed on the window.
 			int width : The width of the window. 
-			int height : The height of the window. */
-		SDL_Instance(char* exeName, int width, int height, bool fullScreen = false);
+			int height : The height of the window. 
+			bool isFullscreen : Whether or not the window should be rendered in full screen. */
+		SDL_Instance(char* exeName, int width, int height, bool isFullscreen = false);
 
 		/* SDL_Instance Destructor. */
 		~SDL_Instance();

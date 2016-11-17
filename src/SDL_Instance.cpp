@@ -3,7 +3,7 @@
 /* PUBLIC */
 SDL_Instance::SDL_Instance() { }
 
-SDL_Instance::SDL_Instance(char* exeName, int width, int height, bool fullScreen)
+SDL_Instance::SDL_Instance(char* exeName, int width, int height, bool isFullScreen)
 {
 	// Initialize
 	int sdl_ini = SDL_Init(SDL_INIT_EVERYTHING);
@@ -17,7 +17,7 @@ SDL_Instance::SDL_Instance(char* exeName, int width, int height, bool fullScreen
 	if (_window == nullptr)
 	{
 		Log("Unable to create SDL window (SDL_CreateWindow).", DebugTools::Error, true);
-		SetFullScreen(fullScreen);
+		SetFullScreen(isFullScreen);
 	}
 	Log("SDL window created successfully.", DebugTools::Info);
 
@@ -30,9 +30,7 @@ SDL_Instance::SDL_Instance(char* exeName, int width, int height, bool fullScreen
 
 SDL_Instance::~SDL_Instance()
 {
-	delete _window;
-	delete _renderer;
-	delete _name;
+	CleanExit();
 }
 
 char* SDL_Instance::GetName()
@@ -76,12 +74,12 @@ void SDL_Instance::SetDimensions(int newWidth, int newHeight)
 	SDL_SetWindowSize(_window, newWidth, newHeight);
 }
 
-void SDL_Instance::SetRenderScale(float modifierX, float modiferY)
+void SDL_Instance::SetRenderScale(float modifierX, float modifierY)
 {
 	// Calculate the overall scale based on input parameters and existing dimensional information for the window.
 	SDL_Rect windowDims = GetDimensions();
 	float scaleX = (float)windowDims.w / modifierX;
-	float scaleY = (float)windowDims.h / modiferY;
+	float scaleY = (float)windowDims.h / modifierY;
 
 	// Set the render scale to the calculated size.
 	SDL_RenderSetScale(_renderer, scaleX, scaleY);
@@ -101,7 +99,10 @@ void SDL_Instance::Log(char* text, DebugTools::LogType type, bool terminate)
 void SDL_Instance::CleanExit()
 {
 	// Destroy the window and renderer instances before quiting SDL.
-	if (_window != nullptr) SDL_DestroyWindow(_window);
-	if (_renderer != nullptr) SDL_DestroyRenderer(_renderer);
+	SDL_DestroyWindow(_window);
+	_window = nullptr;
+
+	SDL_DestroyRenderer(_renderer);
+	_renderer = nullptr;
 	SDL_Quit();
 }
