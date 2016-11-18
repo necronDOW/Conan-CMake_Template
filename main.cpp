@@ -1,12 +1,9 @@
 #define DEV true
 
 #include <iostream>
-#include "src/DeveloperTools.h"
 #include "src/glContext.h"
 
 bool done;
-DeveloperTools devTools;
-
 void HandleInput()
 {
 	SDL_Event event;
@@ -24,9 +21,6 @@ void HandleInput()
 				if (key == SDLK_ESCAPE)
 					done = true;
 		}
-
-		if (devTools.GetActive())
-			devTools.HandleInput(done, event, key);
 	}
 }
 
@@ -38,7 +32,6 @@ void Update()
 int main(int argc, char* argv[])
 {
 	done = false;
-	devTools = new DeveloperTools(DEV);
 
 	glContext context = glContext("Hello World!", 500, 500, false);
 

@@ -10,7 +10,8 @@ add_executable(${PROJNAME} main.cpp
 	src/SDL_Instance.cpp src/SDL_Instance.h 
 	src/DebugTools.cpp src/DebugTools.h
 	src/glContext.cpp src/glContext.h
-	src/glProgram.cpp src/glProgram.h)
+	src/glProgram.cpp src/glProgram.h
+	src/AssetManager.cpp src/AssetManager.h)
 target_link_libraries(${PROJNAME} ${CONAN_LIBS})
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJNAME})
 
