@@ -11,6 +11,11 @@ void DebugTools::Log(std::string text, LogType type, int indent)
 	}
 }
 
+void DebugTools::SectionBreak()
+{
+	std::cout << std::endl;
+}
+
 /* PRIVATE */
 int DebugTools::TypeToPriority(LogType t)
 {

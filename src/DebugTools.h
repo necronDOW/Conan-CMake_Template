@@ -27,6 +27,9 @@ class DebugTools
 			int indent : The number of indents to be prefixed to the message. (default:0)*/
 		static void Log(std::string text, LogType type, int indent = 0);
 
+		/* Output a section break to the console. */
+		static void SectionBreak();
+
 	private:
 		/* Parse the message type into a resultant priority. 
 			LogType t : The type to be parsed. */

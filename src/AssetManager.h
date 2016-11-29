@@ -5,6 +5,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <direct.h>
 
 class AssetManager
 {
@@ -25,6 +26,8 @@ class AssetManager
 		// NON-SINGLETON
 		static void ReadFile(std::string dir, std::string &out);
 		static void ReadFile(std::string dir, std::string* &out);
+		static bool FileExists(std::string dir);
+		static std::string GetWorkingPath();
 
 	private:
 		/* SINGLETON

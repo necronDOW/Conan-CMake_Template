@@ -2,7 +2,51 @@
 
 glProgram::glProgram() { }
 
-GLuint glProgram::CreateShader(GLenum eShaderType, std::string shaderDir)
+void glProgram::Initialize()
+{
+	DebugTools::Log("Initializing program ...", DebugTools::Info);
+
+	if (_shaders.size() == 0)
+	{
+		DebugTools::Log("No shaders loaded, aborting ...", DebugTools::Warn);
+		return;
+	}
+
+	_program = CreateProgram(_shaders);
+	if (_program == 0)
+	{
+		DebugTools::Log("Failed to create program!", DebugTools::Error, 1);
+		return;
+	}
+	else DebugTools::Log("Program created successfully!", DebugTools::Info, 1);
+
+	#pragma region Set Locations
+
+	#pragma endregion
+
+	std::for_each(_shaders.begin(), _shaders.end(), glDeleteShader);
+	_shaders.clear();
+}
+
+void glProgram::LinkShader(GLenum eShaderType, std::string shaderDir)
+{
+	DebugTools::Log("Searching for shader (" + shaderDir + ") ...", DebugTools::Info);
+	shaderDir = AssetManager::GetWorkingPath() + shaderDir;
+
+	if (AssetManager::FileExists(shaderDir))
+	{
+		DebugTools::Log("Shader found! Creating shader ...", DebugTools::Info, 1);
+		GLint success;
+		_shaders.push_back(CreateShader(eShaderType, shaderDir, success));
+
+		if (success == GL_TRUE)
+			DebugTools::Log("Shader created successfully!", DebugTools::Info, 1);
+		else DebugTools::Log("Failed to create shader!", DebugTools::Error, 1);
+	}
+	else DebugTools::Log("Shader not found!", DebugTools::Error, 1);
+}
+
+GLuint glProgram::CreateShader(GLenum eShaderType, std::string shaderDir, GLint& status)
 {
 	// REQUIRES REAL-TIME CONSOLE LOGGING.
 	GLuint shader = glCreateShader(eShaderType);
@@ -14,7 +58,6 @@ GLuint glProgram::CreateShader(GLenum eShaderType, std::string shaderDir)
 	glShaderSource(shader, 1, &strFileData, NULL);
 	glCompileShader(shader);
 
-	GLint status;
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
 	if (status == GL_FALSE)
 	{
@@ -43,4 +86,39 @@ GLuint glProgram::CreateShader(GLenum eShaderType, std::string shaderDir)
 	}
 
 	return shader;
+}
+
+GLuint glProgram::CreateProgram(const std::vector<GLuint> &shaderList)
+{
+	GLuint program = glCreateProgram();
+
+	for (size_t i = 0; i < shaderList.size(); i++)
+		glAttachShader(program, shaderList[i]);
+
+	glLinkProgram(program);
+
+	GLint status;
+	glGetProgramiv(program, GL_LINK_STATUS, &status);
+	if (status == GL_FALSE)
+	{
+		GLint infoLogLength;
+		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &infoLogLength);
+
+		GLchar* strInfoLog = new GLchar[infoLogLength + 1];
+		glGetProgramInfoLog(program, infoLogLength, NULL, strInfoLog);
+		fprintf(stderr, "Linker failure: %s\n", strInfoLog);
+		delete[] strInfoLog;
+	}
+
+	for (size_t i = 0; i < shaderList.size(); i++)
+		glDetachShader(program, shaderList[i]);
+
+	return program;
+}
+
+glProgram glProgram::operator=(const glProgram& other)
+{
+	this->_program = other._program;
+
+	return *this;
 }

@@ -14,6 +14,8 @@ glContext::glContext(char* name, int width, int height, bool isFullscreen)
 
 	glViewport(0, 0, width, height);
 	SDL_GL_SwapWindow(_window);
+
+	DebugTools::SectionBreak();
 }
 
 glContext::~glContext()

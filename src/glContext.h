@@ -21,6 +21,7 @@ class glContext
 		~glContext();
 
 		void Log(std::string text, DebugTools::LogType type, bool terminate = false);
+		void CleanExit();
 
 		void SetFullScreen(bool value);
 		void SetDimensions(int newWidth, int newHeight);
@@ -35,7 +36,6 @@ class glContext
 		void CreateWindow(int width, int height);
 		void CreateContext();
 		void SetGLAttributes();
-		void CleanExit();
 
 		char* _name;
 		SDL_Window* _window;

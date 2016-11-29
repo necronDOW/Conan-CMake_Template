@@ -4,29 +4,30 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 #include <SDL.h>
 #include <GL/glew.h>
 
 #include "AssetManager.h"
+#include "DebugTools.h"
 
 class glProgram
 {
 	public:
 		glProgram();
-		glProgram(std::string vertShaderDir, std::string fragShaderDir);
 		glProgram operator=(const glProgram& other);
 
 		void Initialize();
+		void LinkShader(GLenum eShaderType, std::string shaderDir);
 
 	private:
-		GLuint CreateShader(GLenum eShaderType, std::string shaderDir);
+		GLuint CreateShader(GLenum eShaderType, std::string shaderDir, GLint& status);
 		GLuint CreateProgram(const std::vector<GLuint> &shaderList);
 
-		GLuint program;
+		GLuint _program;
 
-		const std::string _strVertShader;
-		const std::string _strFragShader;
+		std::vector<GLuint> _shaders;
 };
 
 #endif
