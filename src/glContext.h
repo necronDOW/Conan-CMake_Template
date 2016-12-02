@@ -1,5 +1,5 @@
-#ifndef GL_CONTEXT_H
-	#define GL_CONTEXT_H
+#ifndef glcontext_h_defined
+#define glcontext_h_defined
 
 #include <GL/glew.h>
 #include <SDL.h>

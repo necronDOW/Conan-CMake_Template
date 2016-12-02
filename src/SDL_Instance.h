@@ -1,5 +1,5 @@
-#ifndef SDL_INSTANCE_H
-	#define SDL_INSTANCE_H
+#ifndef sdlinstance_h_defined
+#define sdlinstance_h_defined
 
 #include <SDL.h>
 #include "DebugTools.h"

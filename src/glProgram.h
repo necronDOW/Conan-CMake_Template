@@ -1,5 +1,5 @@
-#ifndef GL_PROGRAM_H
-	#define GL_PROGRAM_H
+#ifndef glprogram_h_defined
+#define glprogram_h_defined
 
 #include <iostream>
 #include <string>
@@ -15,11 +15,19 @@
 class glProgram
 {
 	public:
+		enum ShaderVars
+		{
+			Att,
+			Uni
+		};
+
 		glProgram();
 		glProgram operator=(const glProgram& other);
 
 		void Initialize();
 		void LinkShader(GLenum eShaderType, std::string shaderDir);
+		GLuint GetProgram();
+		GLint GetShaderVarLocation(const GLchar* id, ShaderVars type = ShaderVars::Att);
 
 	private:
 		GLuint CreateShader(GLenum eShaderType, std::string shaderDir, GLint& status);

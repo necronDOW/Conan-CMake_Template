@@ -20,10 +20,6 @@ void glProgram::Initialize()
 	}
 	else DebugTools::Log("Program created successfully!", DebugTools::Info, 1);
 
-	#pragma region Set Locations
-
-	#pragma endregion
-
 	std::for_each(_shaders.begin(), _shaders.end(), glDeleteShader);
 	_shaders.clear();
 }
@@ -44,6 +40,24 @@ void glProgram::LinkShader(GLenum eShaderType, std::string shaderDir)
 		else DebugTools::Log("Failed to create shader!", DebugTools::Error, 1);
 	}
 	else DebugTools::Log("Shader not found!", DebugTools::Error, 1);
+}
+
+GLuint glProgram::GetProgram()
+{
+	return _program;
+}
+
+GLint glProgram::GetShaderVarLocation(const GLchar* id, ShaderVars type)
+{
+	switch (type)
+	{
+		case Att:
+			return glGetAttribLocation(_program, id);
+			break;
+		case Uni:
+			return glGetUniformLocation(_program, id);
+			break;
+	}
 }
 
 GLuint glProgram::CreateShader(GLenum eShaderType, std::string shaderDir, GLint& status)

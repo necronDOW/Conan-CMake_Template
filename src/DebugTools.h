@@ -1,10 +1,10 @@
-#ifndef DEBUG_TOOLS_H
-	#define DEBUG_TOOLS_H
-	#define DEBUG_PRIORITY 4
+#ifndef debugtools_h_defined
+#define debugtools_h_defined
+#define DEBUG_PRIORITY 4
 
-	#define STD_ERROR_PRIORITY 1
-	#define STD_WARN_PRIORITY 2
-	#define STD_INFO_PRIORITY 3
+#define STD_ERROR_PRIORITY 1
+#define STD_WARN_PRIORITY 2
+#define STD_INFO_PRIORITY 3
 
 #include <fstream>
 #include <iostream>

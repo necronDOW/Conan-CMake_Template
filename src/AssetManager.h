@@ -1,5 +1,5 @@
-#ifndef ASSET_MNGR
-	#define ASSET_MNGR
+#ifndef assetmanager_h_defined
+#define assetmanager_h_defined
 
 #include <iostream>
 #include <string>
