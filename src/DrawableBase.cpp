@@ -45,19 +45,24 @@ void DrawableBase::InitializeVertexArrayObject()
 
 void DrawableBase::InitializeVertexBuffer()
 {
-	DebugTools::Log("Generating buffers ...", DebugTools::Info, 1);
-
+	DebugTools::Log("Generating vertex buffer ...", DebugTools::Info, 1);
 	glGenBuffers(1, &_oVertexDataBuffer);
 	DebugTools::Log("Vertex Data Buffer created! GLuint is: " + _oVertexDataBuffer, DebugTools::Info, 2);
 	
-	glGenBuffers(1, &_oElementBuffer);
-	DebugTools::Log("Element Buffer created! GLuint is: " + _oElementBuffer, DebugTools::Info, 2);
-
-	DebugTools::Log("Buffers generated! Binding ...", DebugTools::Info, 1);
-
+	DebugTools::Log("Creating vertex buffer data ...", DebugTools::Info, 1);
 	glBindBuffer(GL_ARRAY_BUFFER, _oVertexDataBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _oElementBuffer);
+		glBufferData(GL_ARRAY_BUFFER, _vData.size() * sizeof(_vData.front()), &_vData.front(), GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	DebugTools::Log("Buffers binded successfully!", DebugTools::Info, 1);
 	DebugTools::SectionBreak();
+}
+
+void DrawableBase::PerformDraw(GLenum mode, GLsizei count)
+{
+	glUniform3f(_svlOffset, _position.x, _position.y, _position.z);
+	glUniformMatrix4fv(_svlTranslate, 1, GL_FALSE, glm::value_ptr(_transformations));
+
+	glBindVertexArray(_oVertexArray);
+	glDrawElements(mode, count, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
 }

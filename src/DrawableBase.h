@@ -14,17 +14,20 @@ class DrawableBase
 {
 	public:
 		DrawableBase(glProgram* program, glm::vec3 position);
+		void Draw() { }
 
 	protected:
+		DrawableBase() { }
 		void InitializeVertexArrayObject();
 		void InitializeVertexBuffer();
+		void PerformDraw(GLenum mode, GLsizei count);
 
 		GLuint _oVertexArray;
-		GLuint _oElementBuffer;
 		GLuint _oVertexDataBuffer;
 		glm::vec2 _size;
 		glm::vec3 _position;
 		glm::mat4 _transformations;
+		std::vector<GLfloat> _vData;
 
 		GLint _svlPosition;
 		GLint _svlVertColor;
