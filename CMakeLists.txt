@@ -14,7 +14,8 @@ add_executable( ${PROJNAME} main.cpp
 	src/AssetManager.cpp src/AssetManager.h
 	src/ProgramInstance.cpp src/ProgramInstance.h
 	src/Renderer.cpp src/Renderer.h 
-	src/Camera.cpp src/Camera.h )
+	src/Camera.cpp src/Camera.h
+	src/DrawableBase.cpp src/DrawableBase.h )
 target_link_libraries(${PROJNAME} ${CONAN_LIBS})
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJNAME})
 

@@ -4,8 +4,8 @@ Camera::Camera(glm::vec3 position, glm::vec3 rotation, glProgram* program, float
 {
 	_position = position;
 	_rotation = rotation;
-	_projectionLocation = program->GetShaderVarLocation("projectionMatrix", glProgram::Uni);
-	_viewLocation = program->GetShaderVarLocation("viewMatrix", glProgram::Uni);
+	_svlProjection = program->GetShaderVarLocation("projectionMatrix", glProgram::Uni);
+	_svlView = program->GetShaderVarLocation("viewMatrix", glProgram::Uni);
 
 	_projectionMatrix = glm::perspective(fovy, aspect, near, far);
 }
@@ -45,5 +45,5 @@ void Camera::Update()
 
 glm::mat4 Camera::GetProjection() { return _projectionMatrix; }
 glm::mat4 Camera::GetView() { return _viewMatrix; }
-GLint Camera::GetProjectionLocation() { return _projectionLocation; }
-GLint Camera::GetViewLocation() { return _viewLocation; }
+GLint Camera::GetProjectionLocation() { return _svlProjection; }
+GLint Camera::GetViewLocation() { return _svlView; }

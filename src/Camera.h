@@ -30,8 +30,8 @@ class Camera
 	private:
 		glm::mat4 _projectionMatrix;
 		glm::mat4 _viewMatrix;
-		GLint _projectionLocation;
-		GLint _viewLocation;
+		GLint _svlProjection;
+		GLint _svlView;
 
 		glm::vec3 _position;
 		glm::vec3 _rotation;
