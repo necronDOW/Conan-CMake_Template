@@ -10,37 +10,37 @@
 #include "glContext.h"
 #include "DebugTools.h"
 #include "Camera.h"
-#include "Line.h"
+#include "DrawableBase.h"
 
 class Renderer
 {
 	private:
-		Renderer() { }
-		Renderer(GLuint program, glContext* context);
-		Renderer(Renderer const&) { }
-		Renderer& operator=(Renderer const&) { }
+		/*Renderer(Renderer const&) { }
+		Renderer& operator=(Renderer const&) { }*/
 		static Renderer* _instance;
 
 	public:
 		static Renderer* Get();
-		static Renderer* Get(GLuint program, glContext* context);
+		static Renderer* Get(GLuint program, glContext& context);
 	
 	public:
+		Renderer() { }
+		Renderer(GLuint program, glContext& context);
 		void PreRender();
 		void Render();
 		void PostRender();
 		void Clean();
-		void AddToRender(DrawableBase* obj, bool is3D = true);
+		void AddToRender(DrawableBase obj, bool is3D = true);
 		void SetCamera(Camera* camera);
 
 	private:
 		GLuint _program;
-		glContext* _context;
+		glContext _context;
 		Camera* _camera = NULL;
 		GLint _projectionLocation;
 		GLint _viewLocation;
-		std::vector<DrawableBase*> _interfaceObjs;
-		std::vector<DrawableBase*> _3DObjs;
+		std::vector<DrawableBase> _interfaceObjs;
+		std::vector<DrawableBase> _3DObjs;
 };
 
 #endif

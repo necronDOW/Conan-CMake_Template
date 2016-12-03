@@ -13,28 +13,30 @@
 class DrawableBase
 {
 	public:
-		DrawableBase(glProgram* program, glm::vec3 position);
-		void Draw() { }
+		DrawableBase(glProgram& program, glm::vec3 position);
+		void Draw();
 
 	protected:
 		DrawableBase() { }
-		void InitializeVertexArrayObject();
 		void InitializeVertexBuffer();
-		void PerformDraw(GLenum mode, GLsizei count);
-		bool PopulateVertexData(int size, glm::vec3 positions[], glm::vec3 colorRGB);
-		bool PopulateVertexData(int size, glm::vec3 positions[], glm::vec3 colorsRGB[]);
+		void InitializeVertexArrayObject();
+		//bool PopulateVertexData(int size, glm::vec3 positions[], glm::vec3 colorRGB);
+		//bool PopulateVertexData(int size, glm::vec3 positions[], glm::vec3 colorsRGB[]);
 
-		GLuint _oVertexArray;
-		GLuint _oVertexDataBuffer;
-		glm::vec2 _size;
+		GLuint _vao, _ebo, _vbo;
+		GLint _svlPosition, _svlVertColor, _svlTranslate, _svlOffset;
+
 		glm::vec3 _position;
 		glm::mat4 _transformations;
-		GLfloat* _vData;
+		GLfloat _vData[18] = {
+			0.0f, 0.5f, 0.0f, 1.0f, 1.0f, 1.0f,
+			-0.433f, -0.25f, 0.0f, 1.0f, 1.0f, 1.0f,
+			0.433f, -0.25f, 0.0f, 1.0f, 1.0f, 1.0f
+		};
 
-		GLint _svlPosition;
-		GLint _svlVertColor;
-		GLint _svlTranslate;
-		GLint _svlOffset;
+		GLuint _eData[3] = {
+			0, 1, 2
+		};
 };
 
 #endif

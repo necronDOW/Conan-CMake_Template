@@ -85,7 +85,7 @@ void glContext::CreateContext()
 	SetGLAttributes();
 
 	_context = SDL_GL_CreateContext(_window);
-	if (_context == NULL)
+	if (_context == nullptr)
 	{
 		SDL_DestroyWindow(_window);
 		Log("Unable to create GL Context (SDL_GL_CreateContext).", DebugTools::Warn, false);

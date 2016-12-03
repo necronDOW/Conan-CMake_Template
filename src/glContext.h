@@ -39,7 +39,7 @@ class glContext
 
 		char* _name;
 		SDL_Window* _window;
-		SDL_GLContext _context = NULL;
+		SDL_GLContext _context;
 };
 
 #endif

@@ -7,7 +7,6 @@
 #include "glProgram.h"
 #include "Renderer.h"
 #include "Camera.h"
-#include "DrawableBase.h"
 
 class ProgramInstance
 {
@@ -18,14 +17,15 @@ class ProgramInstance
 	private:
 		void Initialize();
 		void Runtime();
+		void HandleInput();
 		void FixedUpdate();
 		void Update();
 		void Render();
 
 		bool done = false;
-		glContext _context = glContext("Heatmap Visualization Tool", 960, 960);
+		glContext _context = glContext("Heatmap Visualization Tool", 720, 480);
 		glProgram _program = glProgram();
-		Renderer* _renderer = NULL;
+		Renderer* _renderer;
 		Camera _camera;
 };
 
