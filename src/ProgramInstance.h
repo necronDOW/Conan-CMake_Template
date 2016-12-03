@@ -7,6 +7,7 @@
 #include "glProgram.h"
 #include "Renderer.h"
 #include "Camera.h"
+#include "DrawableBase.h"
 
 class ProgramInstance
 {

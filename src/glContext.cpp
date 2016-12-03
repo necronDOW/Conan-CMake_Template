@@ -64,16 +64,13 @@ void glContext::InitGlew()
 	if (status != GLEW_OK)
 		Log("Unable to initialize GLEW (glewInit).", DebugTools::Error, true);
 	Log("GLEW Initialized successfully!", DebugTools::Info);
-
 }
 
 void glContext::CreateWindow(int width, int height)
 {
 	Log("Attempting to create an SDL Window ...", DebugTools::Info);
 
-	int center = SDL_WINDOWPOS_CENTERED;
-
-	_window = SDL_CreateWindow(_name, center, center, width, height, SDL_WINDOW_OPENGL);
+	_window = SDL_CreateWindow(_name, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_OPENGL);
 	if (_window == nullptr)
 		Log("Unable to create SDL window (SDL_CreateWindow).", DebugTools::Error, true);
 

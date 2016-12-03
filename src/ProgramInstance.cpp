@@ -26,6 +26,8 @@ void ProgramInstance::Runtime()
 {
 	glEnable(GL_DEPTH_TEST);
 
+	_renderer->AddToRender(new Line(&_program, glm::vec3(0, 0, 0), glm::vec3(1, 1, 0), glm::vec3(1, 0, 0)), false);
+
 	while (!done)
 	{
 		FixedUpdate();

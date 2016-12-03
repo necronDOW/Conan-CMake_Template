@@ -21,13 +21,15 @@ class DrawableBase
 		void InitializeVertexArrayObject();
 		void InitializeVertexBuffer();
 		void PerformDraw(GLenum mode, GLsizei count);
+		bool PopulateVertexData(int size, glm::vec3 positions[], glm::vec3 colorRGB);
+		bool PopulateVertexData(int size, glm::vec3 positions[], glm::vec3 colorsRGB[]);
 
 		GLuint _oVertexArray;
 		GLuint _oVertexDataBuffer;
 		glm::vec2 _size;
 		glm::vec3 _position;
 		glm::mat4 _transformations;
-		std::vector<GLfloat> _vData;
+		GLfloat* _vData;
 
 		GLint _svlPosition;
 		GLint _svlVertColor;

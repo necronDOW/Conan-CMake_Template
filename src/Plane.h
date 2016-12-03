@@ -3,7 +3,7 @@
 
 #include "DrawableBase.h"
 
-class Plane : protected DrawableBase
+class Plane : public DrawableBase
 {
 	public:
 		Plane(glProgram* program, glm::vec3 position, glm::vec3 size, int xCellCount = 2, int yCellCount = 2);

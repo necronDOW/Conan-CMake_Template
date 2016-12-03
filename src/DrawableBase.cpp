@@ -12,49 +12,45 @@ DrawableBase::DrawableBase(glProgram* program, glm::vec3 position)
 	_position = position;
 
 	DebugTools::Log("Drawable Object initialized successfully!", DebugTools::Info, 1);
-	DebugTools::SectionBreak();
 }
 
 void DrawableBase::InitializeVertexArrayObject()
 {
-	DebugTools::Log("Generating Vertex Array ...", DebugTools::Info, 1);
+	DebugTools::Log("Generating vertex array ...", DebugTools::Info, 1);
 
 	glGenVertexArrays(1, &_oVertexArray);
-	DebugTools::Log("Vertex Array created! GLuint is: " + _oVertexArray, DebugTools::Info, 2);
+	DebugTools::Log("Vertex array created! GLuint is: " + _oVertexArray, DebugTools::Info, 2);
 
-	DebugTools::Log("Binding ...", DebugTools::Info, 1);
+	DebugTools::Log("Binding ...", DebugTools::Info, 2);
 
 	glBindVertexArray(_oVertexArray);
 		glBindBuffer(GL_ARRAY_BUFFER, _oVertexDataBuffer);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _oElementBuffer);
 
 		glEnableVertexAttribArray(_svlPosition);
-		glVertexAttribPointer(_svlPosition, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), 0);
+		glVertexAttribPointer(_svlPosition, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), 0);
 
 		glEnableVertexAttribArray(_svlVertColor);
-		glVertexAttribPointer(_svlVertColor, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+		glVertexAttribPointer(_svlVertColor, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glBindVertexArray(0);
 
-	DebugTools::Log("Vertex Array binded successfully!", DebugTools::Info, 1);
+	DebugTools::Log("Vertex array bound successfully!", DebugTools::Info, 2);
 
 	glDisableVertexAttribArray(_svlPosition);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	DebugTools::SectionBreak();
 }
 
 void DrawableBase::InitializeVertexBuffer()
 {
-	DebugTools::Log("Generating vertex buffer ...", DebugTools::Info, 1);
+	DebugTools::Log("Generating vertex data buffer ...", DebugTools::Info, 1);
 	glGenBuffers(1, &_oVertexDataBuffer);
-	DebugTools::Log("Vertex Data Buffer created! GLuint is: " + _oVertexDataBuffer, DebugTools::Info, 2);
+	DebugTools::Log("Vertex data buffer created! GLuint is: " + _oVertexDataBuffer, DebugTools::Info, 2);
 	
-	DebugTools::Log("Creating vertex buffer data ...", DebugTools::Info, 1);
+	DebugTools::Log("Creating vertex buffer data ...", DebugTools::Info, 2);
 	glBindBuffer(GL_ARRAY_BUFFER, _oVertexDataBuffer);
-		glBufferData(GL_ARRAY_BUFFER, _vData.size() * sizeof(_vData.front()), &_vData.front(), GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(_vData), _vData, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	DebugTools::SectionBreak();
+	delete[] _vData;
 }
 
 void DrawableBase::PerformDraw(GLenum mode, GLsizei count)
@@ -63,6 +59,44 @@ void DrawableBase::PerformDraw(GLenum mode, GLsizei count)
 	glUniformMatrix4fv(_svlTranslate, 1, GL_FALSE, glm::value_ptr(_transformations));
 
 	glBindVertexArray(_oVertexArray);
-	glDrawElements(mode, count, GL_UNSIGNED_INT, 0);
+	glDrawArrays(mode, 0, count);
 	glBindVertexArray(0);
+}
+
+bool DrawableBase::PopulateVertexData(int size, glm::vec3 positions[], glm::vec3 colorRGB)
+{
+	_vData = new GLfloat[size * 6];
+	int iterator = 0;
+	for (int i = 0; i < size * 6; i += 6)
+	{
+		_vData[i] = positions[iterator].x;
+		_vData[i + 1] = positions[iterator].y;
+		_vData[i + 2] = positions[iterator].z;
+		_vData[i + 3] = colorRGB.x;
+		_vData[i + 4] = colorRGB.y;
+		_vData[i + 5] = colorRGB.z;
+
+		iterator++;
+	}
+
+	return true;
+}
+
+bool DrawableBase::PopulateVertexData(int size, glm::vec3 positions[], glm::vec3 colorsRGB[])
+{
+	_vData = new GLfloat[size * 6];
+	int iterator = 0;
+	for (int i = 0; i < size * 6; i += 6)
+	{
+		_vData[i] = positions[iterator].x;
+		_vData[i + 1] = positions[iterator].y;
+		_vData[i + 2] = positions[iterator].z;
+		_vData[i + 3] = colorsRGB[iterator].x;
+		_vData[i + 4] = colorsRGB[iterator].y;
+		_vData[i + 5] = colorsRGB[iterator].z;
+
+		iterator++;
+	}
+
+	return true;
 }

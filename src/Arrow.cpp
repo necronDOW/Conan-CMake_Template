@@ -1,7 +1,7 @@
 #include "Arrow.h"
 
-Arrow::Arrow(glProgram* program, glm::vec3 start, glm::vec3 end)
-	: Line(program, start, end)
+Arrow::Arrow(glProgram* program, glm::vec3 start, glm::vec3 end, glm::vec3 colorRGB)
+	: Line(program, start, end, colorRGB)
 {
 
 }
