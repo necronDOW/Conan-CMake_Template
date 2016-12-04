@@ -18,24 +18,21 @@ class DrawableBase
 
 	protected:
 		DrawableBase() { }
-		void InitializeVertexBuffer();
+		bool InitializeVertexBuffer();
 		void InitializeVertexArrayObject();
-		//bool PopulateVertexData(int size, glm::vec3 positions[], glm::vec3 colorRGB);
-		//bool PopulateVertexData(int size, glm::vec3 positions[], glm::vec3 colorsRGB[]);
+		void CreateVertex(glm::vec3 positions, glm::vec3 color);
 
 		GLuint _vao, _ebo, _vbo;
 		GLint _svlPosition, _svlVertColor, _svlTranslate, _svlOffset;
 
+		bool isReady = false;
 		glm::vec3 _position;
 		glm::mat4 _transformations;
-		GLfloat _vData[18] = {
-			0.0f, 0.5f, 0.0f, 1.0f, 1.0f, 1.0f,
-			-0.433f, -0.25f, 0.0f, 1.0f, 1.0f, 1.0f,
-			0.433f, -0.25f, 0.0f, 1.0f, 1.0f, 1.0f
-		};
+		std::vector<GLfloat> _vData;
 
-		GLuint _eData[3] = {
-			0, 1, 2
+		GLuint _eData[6] = {
+			0, 1, 2,
+			2, 3, 0
 		};
 };
 
