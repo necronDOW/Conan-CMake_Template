@@ -21,19 +21,23 @@ class DrawableBase
 		bool InitializeVertexBuffer();
 		void InitializeVertexArrayObject();
 		void CreateVertex(glm::vec3 positions, glm::vec3 color);
+		void CreateTriangle(int vertA, int vertB, int vertC);
+		virtual void MainDraw();
 
-		GLuint _vao, _ebo, _vbo;
+		GLuint _vao, _ebo = 0, _vbo = 0;
 		GLint _svlPosition, _svlVertColor, _svlTranslate, _svlOffset;
 
-		bool isReady = false;
 		glm::vec3 _position;
 		glm::mat4 _transformations;
 		std::vector<GLfloat> _vData;
+		int _vCount = 0;
+		std::vector<GLuint> _eData;
+		int _eCount = 0, _eMax = 0;
 
-		GLuint _eData[6] = {
-			0, 1, 2,
-			2, 3, 0
-		};
+	private:
+		void SetUniforms();
+
+		bool isReady = false;
 };
 
 #endif
