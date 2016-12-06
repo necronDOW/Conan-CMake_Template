@@ -15,7 +15,7 @@ void ProgramInstance::Initialize()
 	_program.LinkShader(GL_FRAGMENT_SHADER, "../../shaders/frag_shader.frag");
 	_program.Initialize();
 
-	_camera = Camera(glm::vec3(0.0f, 0.1f, -1.0f), glm::vec3(-45.0f, 0.0f, 0.0f), &_program, 45.0f, 1.0f, 0.1f, 100.0f);
+	_camera = Camera(glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 0.0f, 0.0f), &_program, 45.0f, 1.0f, 0.1f, 100.0f);
 	_renderer = new Renderer(_program.GetProgram(), _context);
 	_renderer->SetCamera(&_camera);
 
@@ -26,7 +26,7 @@ void ProgramInstance::Runtime()
 {
 	glEnable(GL_DEPTH_TEST);
 
-	_renderer->AddToRender(DrawableBase(_program, glm::vec3(0.0f)));
+	_renderer->AddToRender(new Line(_program, glm::vec3(0.0f), glm::vec3(0.5f)));
 
 	while (!done)
 	{

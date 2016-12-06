@@ -10,7 +10,7 @@
 #include "glContext.h"
 #include "DebugTools.h"
 #include "Camera.h"
-#include "DrawableBase.h"
+#include "DrawableIncludes.h"
 
 class Renderer
 {
@@ -30,7 +30,7 @@ class Renderer
 		void Render();
 		void PostRender();
 		void Clean();
-		void AddToRender(DrawableBase obj, bool is3D = true);
+		void AddToRender(DrawableBase* obj, bool is3D = true);
 		void SetCamera(Camera* camera);
 
 	private:
@@ -39,8 +39,8 @@ class Renderer
 		Camera* _camera = NULL;
 		GLint _projectionLocation;
 		GLint _viewLocation;
-		std::vector<DrawableBase> _interfaceObjs;
-		std::vector<DrawableBase> _3DObjs;
+		std::vector<DrawableBase*> _interfaceObjs;
+		std::vector<DrawableBase*> _3DObjs;
 };
 
 #endif

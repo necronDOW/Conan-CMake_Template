@@ -10,9 +10,10 @@ DrawableBase::DrawableBase(glProgram& program, glm::vec3 position)
 	_svlOffset = program.GetShaderVarLocation("offset", glProgram::Uni);
 
 	_position = position;
+}
 
-	CreateVertex(glm::vec3(0.0f), glm::vec3(1.0f));
-
+void DrawableBase::Initialize()
+{
 	if (InitializeVertexBuffer())
 	{
 		InitializeVertexArrayObject();
@@ -131,7 +132,18 @@ void DrawableBase::CreateVertex(glm::vec3 position, glm::vec3 color)
 	_vCount++;
 }
 
-void DrawableBase::CreateTriangle(int vertA, int vertB, int vertC)
+void DrawableBase::CreateElement(int vertA, int vertB)
+{
+	_eData.push_back(vertA);
+	_eData.push_back(vertB);
+
+	_eCount++;
+
+	int max = std::max(vertA, vertB);
+	_eMax = _eMax < max ? max : _eMax;
+}
+
+void DrawableBase::CreateElement(int vertA, int vertB, int vertC)
 {
 	_eData.push_back(vertA);
 	_eData.push_back(vertB);

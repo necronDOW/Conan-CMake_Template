@@ -14,14 +14,16 @@ class DrawableBase
 {
 	public:
 		DrawableBase(glProgram& program, glm::vec3 position);
-		void Draw();
+		virtual void Draw();
 
 	protected:
 		DrawableBase() { }
+		void Initialize();
 		bool InitializeVertexBuffer();
 		void InitializeVertexArrayObject();
-		void CreateVertex(glm::vec3 positions, glm::vec3 color);
-		void CreateTriangle(int vertA, int vertB, int vertC);
+		void CreateVertex(glm::vec3 positions, glm::vec3 color = glm::vec3(1.0));
+		void CreateElement(int vertA, int vertB);
+		void CreateElement(int vertA, int vertB, int vertC);
 		virtual void MainDraw();
 
 		GLuint _vao, _ebo = 0, _vbo = 0;

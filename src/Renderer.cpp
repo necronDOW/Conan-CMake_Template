@@ -46,13 +46,13 @@ void Renderer::Render()
 		glUniformMatrix4fv(_projectionLocation, 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f)));
 		glUniformMatrix4fv(_viewLocation, 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f)));
 		for (size_t i = 0; i < _interfaceObjs.size(); i++)
-			_interfaceObjs[i].Draw();
+			_interfaceObjs[i]->Draw();
 
 		// 3D draw calls
 		glUniformMatrix4fv(_projectionLocation, 1, GL_FALSE, glm::value_ptr(_camera->GetProjection()));
 		glUniformMatrix4fv(_viewLocation, 1, GL_FALSE, glm::value_ptr(_camera->GetView()));
 		for (size_t i = 0; i < _3DObjs.size(); i++)
-			_3DObjs[i].Draw();
+			_3DObjs[i]->Draw();
 	}
 
 	glUseProgram(0);
@@ -69,7 +69,7 @@ void Renderer::Clean()
 
 }
 
-void Renderer::AddToRender(DrawableBase obj, bool is3D)
+void Renderer::AddToRender(DrawableBase* obj, bool is3D)
 {
 	if (is3D) _3DObjs.push_back(obj);
 	else _interfaceObjs.push_back(obj);
