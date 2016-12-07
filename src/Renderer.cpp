@@ -24,7 +24,7 @@ Renderer::Renderer(GLuint program, glContext& context)
 
 void Renderer::PreRender()
 {
-	glViewport(0, 0, 720, 480);
+	glViewport(0, 0, 480, 480);
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

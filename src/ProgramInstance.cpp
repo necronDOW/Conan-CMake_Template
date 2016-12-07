@@ -26,7 +26,7 @@ void ProgramInstance::Runtime()
 {
 	glEnable(GL_DEPTH_TEST);
 
-	_renderer->AddToRender(new Line(_program, glm::vec3(0.0f), glm::vec3(0.5f)));
+	_renderer->AddToRender(new Arrow(_program, glm::vec3(0.0f), glm::vec3(0.5f)));
 
 	while (!done)
 	{
