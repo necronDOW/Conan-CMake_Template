@@ -7,6 +7,10 @@
 #include <vector>
 #include <direct.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 class AssetManager
 {
 	public:
@@ -25,7 +29,7 @@ class AssetManager
 
 		// NON-SINGLETON
 		static void ReadFile(std::string dir, std::string &out);
-		static void ReadFile(std::string dir, std::string* &out);
+		static void ReadFile(std::string dir, std::vector<std::string> &out);
 		static bool FileExists(std::string dir);
 		static std::string GetWorkingPath();
 

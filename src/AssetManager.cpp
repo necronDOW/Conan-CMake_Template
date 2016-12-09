@@ -14,7 +14,7 @@ void AssetManager::ReadFile(std::string dir, std::string &out)
 	file.close();
 }
 
-void AssetManager::ReadFile(std::string dir, std::string* &out)
+void AssetManager::ReadFile(std::string dir, std::vector<std::string> &out)
 {
 	std::vector<std::string> buffer;
 	std::ifstream file(dir, std::ios::in);
