@@ -26,8 +26,6 @@ void ProgramInstance::Runtime()
 {
 	glEnable(GL_DEPTH_TEST);
 
-	_renderer->AddToRender(new Arrow(_program, glm::vec3(0.0f), glm::vec3(0.1f), glm::vec3(1.0f, 0.0f, 0.0f)));
-
 	while (!done)
 	{
 		HandleInput();
@@ -56,6 +54,11 @@ void ProgramInstance::HandleInput()
 			case SDL_KEYDOWN:
 				if (key == SDLK_ESCAPE)
 					done = true;
+
+			case SDL_DROPFILE:
+				std::vector<std::string> tmp;
+				AssetManager::ReadFile(event.drop.file, tmp);
+				t = new Trajectory(_program, _renderer, tmp);
 		}
 	}
 }

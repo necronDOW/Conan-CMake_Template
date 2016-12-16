@@ -6,7 +6,7 @@ Arrow::Arrow(glProgram& program, glm::vec3 start, glm::vec3 end, bool initialize
 	: Line(program, start, end, false)
 {
 	CreateElement(0, 1);
-	CreateHead(start, end, 0.6f);
+	CreateHead(start, end, 0.55f);
 
 	if (initialize)
 		Initialize();
@@ -16,7 +16,7 @@ Arrow::Arrow(glProgram& program, glm::vec3 start, glm::vec3 end, glm::vec3 color
 	: Line(program, start, end, color, false)
 {
 	CreateElement(0, 1);
-	CreateHead(start, end, 0.6f, color);
+	CreateHead(start, end, 0.55f, color);
 
 	if (initialize)
 		Initialize();

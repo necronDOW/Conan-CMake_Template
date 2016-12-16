@@ -16,20 +16,16 @@ void AssetManager::ReadFile(std::string dir, std::string &out)
 
 void AssetManager::ReadFile(std::string dir, std::vector<std::string> &out)
 {
-	std::vector<std::string> buffer;
 	std::ifstream file(dir, std::ios::in);
 
 	std::string line;
 	while (!file.eof())
 	{
 		std::getline(file, line);
-		buffer.push_back(line);
+		out.push_back(line);
 	}
 
 	file.close();
-
-	std::copy(buffer.begin(), buffer.end(), out);
-	buffer.clear();
 }
 
 bool AssetManager::FileExists(std::string dir)
@@ -40,5 +36,5 @@ bool AssetManager::FileExists(std::string dir)
 
 std::string AssetManager::GetWorkingPath()
 {
-	return std::string(getcwd(NULL, 0));
+	return std::string(_getcwd(NULL, 0));
 }
