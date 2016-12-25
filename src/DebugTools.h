@@ -1,6 +1,6 @@
 #ifndef debugtools_h_defined
 #define debugtools_h_defined
-#define DEBUG_PRIORITY 5
+#define DEBUG_PRIORITY 2
 
 #define STD_ERROR_PRIORITY 1
 #define STD_WARN_PRIORITY 2

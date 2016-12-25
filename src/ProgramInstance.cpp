@@ -19,6 +19,8 @@ void ProgramInstance::Initialize()
 	_renderer = new Renderer(_program.GetProgram(), _context);
 	_renderer->SetCamera(&_camera);
 
+	_renderer->AddToRender(new Plane(_program, glm::vec3(0), glm::vec2(1.0f, 1.0f), 200, 200));
+
 	DebugTools::SectionBreak();
 }
 
@@ -54,12 +56,16 @@ void ProgramInstance::HandleInput()
 			case SDL_KEYDOWN:
 				if (key == SDLK_ESCAPE)
 					done = true;
+				break;
 
 			case SDL_DROPFILE:
 				std::vector<std::string> tmp;
 				AssetManager::ReadFile(event.drop.file, tmp);
 				t = new Trajectory(_program, _renderer, tmp);
+				break;
 		}
+
+		_camera.HandleInput(event, _context);
 	}
 }
 

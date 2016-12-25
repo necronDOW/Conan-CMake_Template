@@ -1,5 +1,6 @@
 #ifndef arrow_h_defined
 #define arrow_h_defined
+
 #include "Line.h"
 
 class Arrow : public Line

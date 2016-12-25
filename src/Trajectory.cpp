@@ -8,6 +8,8 @@ Trajectory::Trajectory(glProgram& program, Renderer* renderer, std::vector<std::
 	glm::vec3 scale = glm::vec3(0.001f);
 	glm::vec3 offset;
 
+	/* CHANGE */ renderer->Clear3DRender();
+
 	for (unsigned int i = 0; i < vData.size(); i++)
 	{
 		FindValue(vData[i], 'X', current.x);

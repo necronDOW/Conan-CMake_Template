@@ -75,6 +75,16 @@ void Renderer::AddToRender(DrawableBase* obj, bool is3D)
 	else _interfaceObjs.push_back(obj);
 }
 
+void Renderer::ClearInterface()
+{
+	_interfaceObjs.clear();
+}
+
+void Renderer::Clear3DRender()
+{
+	_3DObjs.clear();
+}
+
 void Renderer::SetCamera(Camera* camera)
 {
 	_camera = camera;

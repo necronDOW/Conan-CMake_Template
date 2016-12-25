@@ -6,7 +6,7 @@ Arrow::Arrow(glProgram& program, glm::vec3 start, glm::vec3 end, bool initialize
 	: Line(program, start, end, false)
 {
 	CreateElement(0, 1);
-	CreateHead(start, end, 0.55f);
+	CreateHead(start, end, 0.5f);
 
 	if (initialize)
 		Initialize();
@@ -16,7 +16,7 @@ Arrow::Arrow(glProgram& program, glm::vec3 start, glm::vec3 end, glm::vec3 color
 	: Line(program, start, end, color, false)
 {
 	CreateElement(0, 1);
-	CreateHead(start, end, 0.55f, color);
+	CreateHead(start, end, 0.5f, color);
 
 	if (initialize)
 		Initialize();
@@ -32,7 +32,7 @@ void Arrow::CreateHead(glm::vec3 start, glm::vec3 end, float t, glm::vec3 color)
 	glm::vec3 diff = end - start;
 	glm::vec3 tVec = start + (diff * t);
 
-	_arrowSize = diff.length() * 0.03f;
+	_arrowSize = diff.length() * 0.05f;
 	glm::vec3 diffOffset = diff * (_arrowSize / 2.0f);
 
 	CreateVertex(tVec + diffOffset, color);

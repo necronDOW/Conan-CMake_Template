@@ -31,6 +31,8 @@ class Renderer
 		void PostRender();
 		void Clean();
 		void AddToRender(DrawableBase* obj, bool is3D = true);
+		void ClearInterface();
+		void Clear3DRender();
 		void SetCamera(Camera* camera);
 
 	private:
@@ -39,6 +41,7 @@ class Renderer
 		Camera* _camera = NULL;
 		GLint _projectionLocation;
 		GLint _viewLocation;
+
 		std::vector<DrawableBase*> _interfaceObjs;
 		std::vector<DrawableBase*> _3DObjs;
 };

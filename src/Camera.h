@@ -8,6 +8,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "glProgram.h"
+#include "glContext.h"
 
 class Camera
 {
@@ -19,7 +20,7 @@ class Camera
 		void Rotate(glm::vec3 rotation);
 		void SetPosition(glm::vec3 newPosition);
 		void SetRotation(glm::vec3 newRotation);
-		void HandleInput(SDL_Event event, SDL_Keycode key);
+		void HandleInput(SDL_Event event, glContext& context);
 		void Update();
 
 		glm::mat4 GetProjection();
@@ -28,6 +29,8 @@ class Camera
 		GLint GetViewLocation();
 
 	private:
+		void ScrollZoom(float amount, glContext& context);
+
 		glm::mat4 _projectionMatrix;
 		glm::mat4 _viewMatrix;
 		GLint _svlProjection;
@@ -35,6 +38,7 @@ class Camera
 
 		glm::vec3 _position;
 		glm::vec3 _rotation;
+		glm::vec3 _translation;
 };
 
 #endif

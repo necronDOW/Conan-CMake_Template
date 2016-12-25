@@ -8,6 +8,7 @@
 #include "Renderer.h"
 #include "Camera.h"
 #include "Trajectory.h"
+#include "Plane.h"
 
 class ProgramInstance
 {
@@ -24,7 +25,7 @@ class ProgramInstance
 		void Render();
 
 		bool done = false;
-		glContext _context = glContext("Heatmap Visualization Tool", 1000, 1000);
+		glContext _context = glContext("Metrics Visualization Tool", 1000, 1000);
 		glProgram _program = glProgram();
 		Renderer* _renderer;
 		Camera _camera;
