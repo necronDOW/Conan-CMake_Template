@@ -5,7 +5,9 @@ Plane::Plane() : DrawableBase() { }
 Plane::Plane(glProgram& program, glm::vec3 position, glm::vec2 dimensions, unsigned int sizeX, unsigned int sizeY, bool initialize)
 	: DrawableBase(program, position)
 {
-	glm::vec2 cellSize = glm::vec2(dimensions.x / (float)sizeX, dimensions.y / (float)sizeY);
+	_size = glm::vec2(sizeX, sizeY);
+
+	cellSize = glm::vec2(dimensions.x / (float)sizeX, dimensions.y / (float)sizeY);
 	glm::vec3 offset = glm::vec3(-dimensions.x / 2.0f, -dimensions.y / 2.0f, 0.0f);
 	
 	for (int row = 0; row < sizeY + 1; row++)
@@ -31,6 +33,14 @@ Plane::Plane(glProgram& program, glm::vec3 position, glm::vec2 dimensions, unsig
 	if (initialize)
 		Initialize();
 }
+
+void Plane::ClampToPlane(glm::vec3& position)
+{
+	position.x = (int)(position.x / cellSize.x);
+	position.y = (int)(position.y / cellSize.y);
+}
+
+glm::vec2 Plane::GetSize() { return _size; }
 
 void Plane::MainDraw()
 {

@@ -13,8 +13,6 @@ class Trajectory
 
 	private:
 		Trajectory();
-		bool FindValue(std::string str, char id, float& out);
-		bool IsNum(std::string str);
 };
 
 #endif

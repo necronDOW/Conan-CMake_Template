@@ -8,7 +8,7 @@
 #include "Renderer.h"
 #include "Camera.h"
 #include "Trajectory.h"
-#include "Plane.h"
+#include "Heatmap.h"
 
 class ProgramInstance
 {
@@ -29,7 +29,6 @@ class ProgramInstance
 		glProgram _program = glProgram();
 		Renderer* _renderer;
 		Camera _camera;
-		Trajectory* t = nullptr;
 };
 
 #endif

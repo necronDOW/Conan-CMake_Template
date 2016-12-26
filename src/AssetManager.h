@@ -32,6 +32,8 @@ class AssetManager
 		static void ReadFile(std::string dir, std::vector<std::string> &out);
 		static bool FileExists(std::string dir);
 		static std::string GetWorkingPath();
+		static bool FindValue(std::string str, char id, float& out);
+		static bool IsNum(std::string str);
 
 	private:
 		/* SINGLETON

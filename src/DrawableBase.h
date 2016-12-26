@@ -14,11 +14,12 @@ class DrawableBase
 {
 	public:
 		DrawableBase(glProgram& program, glm::vec3 position);
+		void Initialize();
 		virtual void Draw();
+		void ShadeVertex(int index, glm::vec3 color);
 
 	protected:
 		DrawableBase() { }
-		void Initialize();
 		bool InitializeVertexBuffer();
 		void InitializeVertexArrayObject();
 		void CreateVertex(glm::vec3 position, glm::vec3 color = glm::vec3(1.0));
