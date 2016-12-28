@@ -7,8 +7,8 @@
 class Trajectory
 {
 	public:
-		Trajectory(glProgram& program, Renderer* renderer, glm::vec2* &vData, int vSize);
-		Trajectory(glProgram& program, Renderer* renderer, glm::vec2* &vData, int vSize, std::vector<std::string> cData);
+		Trajectory(glProgram& program, glm::vec2* &vData, unsigned int vSize);
+		Trajectory(glProgram& program, glm::vec2* &vData, unsigned int vSize, std::vector<std::string> cData);
 		void Update();
 
 		glm::vec2 GetOffset();

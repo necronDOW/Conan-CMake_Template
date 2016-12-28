@@ -2,39 +2,34 @@
 
 Trajectory::Trajectory() { }
 
-Trajectory::Trajectory(glProgram& program, Renderer* renderer, glm::vec2* &vData, int vSize)
+Trajectory::Trajectory(glProgram& program, glm::vec2* &vData, unsigned int vSize)
 {
 	glm::vec2 last;
 	_scale = glm::vec2(0.001f);
 
 	for (unsigned int i = 0; i < vSize; i++)
 	{
-		vData[i] = (vData[i] * _scale);
+		vData[i] *= _scale;
 
 		if (i == 0)
 			_offset = -vData[i];
-
-		vData[i] += _offset;
-
-		if (i > 0)
+		else
 		{
 			if (last != vData[i])
 			{
 				glm::vec2 diff = vData[i] - last;
 				glm::vec2 tVec = last + (diff * 2.0f);
 
-				renderer->AddToRender(new Arrow(program, last, tVec));
+				Renderer::Get()->AddToRender(new Arrow(program, last + _offset, tVec + _offset));
 			}
 		}
 
-		UpdateBounds((vData[i]));
-
-		last.x = vData[i].x;
-		last.y = vData[i].y;
+		UpdateBounds((vData[i] + _offset));
+		last = vData[i];
 	}
 }
 
-Trajectory::Trajectory(glProgram& program, Renderer* renderer, glm::vec2* &vData, int vSize, std::vector<std::string> cData)
+Trajectory::Trajectory(glProgram& program, glm::vec2* &vData, unsigned int vSize, std::vector<std::string> cData)
 {
 	
 }

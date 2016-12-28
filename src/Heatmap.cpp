@@ -2,18 +2,21 @@
 
 Heatmap::Heatmap() { }
 
-Heatmap::Heatmap(glProgram& program, Renderer* renderer, glm::vec2* &vData, int vSize, Trajectory* trajectory)
+Heatmap::Heatmap(glProgram& program, glm::vec2* &vData, unsigned int vSize, bool initialize)
+	: DrawableBase(program, glm::vec3(-2.3f, 0, 0))
 {
-	Plane* p = new Plane(program, glm::vec2(0), trajectory->GetRange() * 2.0f, glm::vec3(0.1f), 100, 100, -0.001f, false);
+	glm::vec2 last;
 
+	for (unsigned int i = 0; i < vSize; i++)
+	{
+		CreateVertex(glm::vec3(vData[i].x, vData[i].y, 0));
+	}
 
-
-	p->Initialize();
-	renderer->AddToRender(p);
+	if (initialize)
+		Initialize();
 }
 
-void Heatmap::ClampToPlane(glm::vec2& position, Plane* p)
+void Heatmap::MainDraw()
 {
-	position.x = (int)((position.x / p->GetCellSize().x) + 0.5f);
-	position.y = (int)((position.y / p->GetCellSize().y) + 0.5f);
+	glDrawArrays(GL_POINTS, 0, _vCount);
 }

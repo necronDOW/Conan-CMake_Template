@@ -16,7 +16,7 @@ void ProgramInstance::Initialize()
 	_program.Initialize();
 
 	_camera = Camera(glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 0.0f, 0.0f), &_program, 45.0f, 1.0f, 0.1f, 100.0f);
-	_renderer = new Renderer(_program.GetProgram(), _context);
+	_renderer = Renderer::Get(_program.GetProgram(), _context);
 	_renderer->SetCamera(&_camera);
 
 	DebugTools::SectionBreak();
@@ -68,8 +68,8 @@ void ProgramInstance::HandleInput()
 				}
 
 				_renderer->Clear3DRender();
-				Trajectory t = Trajectory(_program, _renderer, positions, tmp.size() - 1);
-				Heatmap h = Heatmap(_program, _renderer, positions, tmp.size() - 1, &t);
+				Trajectory t = Trajectory(_program, positions, tmp.size() - 1);
+				_renderer->AddToRender(new Heatmap(_program, positions, tmp.size() - 1));
 
 				delete[] positions;
 				break;

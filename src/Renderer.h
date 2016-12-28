@@ -24,8 +24,6 @@ class Renderer
 		static Renderer* Get(GLuint program, glContext& context);
 	
 	public:
-		Renderer() { }
-		Renderer(GLuint program, glContext& context);
 		void PreRender();
 		void Render();
 		void PostRender();
@@ -36,6 +34,9 @@ class Renderer
 		void SetCamera(Camera* camera);
 
 	private:
+		Renderer() { }
+		Renderer(GLuint program, glContext& context);
+
 		GLuint _program;
 		glContext _context;
 		Camera* _camera = NULL;

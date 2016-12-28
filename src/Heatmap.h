@@ -1,18 +1,16 @@
 #ifndef heatmap_h_defined
 #define heatmap_h_defined
 
-#include "Plane.h"
-#include "Renderer.h"
-#include "Trajectory.h"
+#include "DrawableBase.h"
 
-class Heatmap
+class Heatmap : public DrawableBase
 {
 	public:
-		Heatmap(glProgram& program, Renderer* renderer, glm::vec2* &vData, int vSize, Trajectory* trajectory);
+		Heatmap(glProgram& program, glm::vec2* &vData, unsigned int vSize, bool initialize = true);
 
 	private:
 		Heatmap();
-		void ClampToPlane(glm::vec2& position, Plane* p);
+		virtual void MainDraw();
 };
 
 #endif
