@@ -61,12 +61,12 @@ void Camera::HandleInput(SDL_Event event, glContext& context)
 			ScrollZoom(event.wheel.y, context);
 			break;
 	}
+
+	Translate(_translation);
 }
 
 void Camera::Update()
 {
-	Translate(_translation);
-
 	_viewMatrix = glm::translate(glm::mat4(1.0f), _position);
 	_viewMatrix = glm::rotate(_viewMatrix, glm::radians(_rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
 	_viewMatrix = glm::rotate(_viewMatrix, glm::radians(_rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));

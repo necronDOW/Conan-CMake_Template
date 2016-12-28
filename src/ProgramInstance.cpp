@@ -60,9 +60,18 @@ void ProgramInstance::HandleInput()
 				std::vector<std::string> tmp;
 				AssetManager::ReadFile(event.drop.file, tmp);
 
+				glm::vec2* positions = new glm::vec2[tmp.size() - 1];
+				for (int i = 0; i < tmp.size(); i++)
+				{
+					AssetManager::FindValue(tmp[i], 'X', positions[i].x);
+					AssetManager::FindValue(tmp[i], 'Y', positions[i].y);
+				}
+
 				_renderer->Clear3DRender();
-				Trajectory(_program, _renderer, tmp);
-				Heatmap(_program, _renderer, tmp);
+				Trajectory t = Trajectory(_program, _renderer, positions, tmp.size() - 1);
+				Heatmap h = Heatmap(_program, _renderer, positions, tmp.size() - 1, &t);
+
+				delete[] positions;
 				break;
 		}
 

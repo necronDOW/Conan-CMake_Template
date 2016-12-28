@@ -6,16 +6,22 @@
 class Plane : public DrawableBase
 {
 	public:
-		Plane(glProgram& program, glm::vec3 position, glm::vec2 dimensions, unsigned int sizeX = 1, unsigned int sizeY = 1, bool initialize = true);
-		void ClampToPlane(glm::vec3& position);
+		Plane(glProgram& program, glm::vec2 position, glm::vec2 dimensions, 
+			unsigned int sizeX = 1, unsigned int sizeY = 1, float zOffset = 0.0f, bool initialize = true);
+		Plane(glProgram& program, glm::vec2 position, glm::vec2 dimensions, glm::vec3 color, 
+			unsigned int sizeX = 1, unsigned int sizeY = 1, float zOffset = 0.0f, bool initialize = true);
+		void ShadePlaneVertex(int indexX, int indexY, glm::vec3 color);
 
+		glm::vec2 GetCellSize();
 		glm::vec2 GetSize();
 
 	protected:
 		Plane();
+		void CreateVertices(glm::vec3 color, float zOffset);
+		void CreateElements();
 		virtual void MainDraw();
 
-		glm::vec2 cellSize;
+		glm::vec2 _cellSize;
 		glm::vec2 _size;
 };
 

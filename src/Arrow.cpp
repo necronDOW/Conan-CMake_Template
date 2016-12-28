@@ -2,7 +2,7 @@
 
 Arrow::Arrow() : Line() { }
 
-Arrow::Arrow(glProgram& program, glm::vec3 start, glm::vec3 end, bool initialize)
+Arrow::Arrow(glProgram& program, glm::vec2 start, glm::vec2 end, bool initialize)
 	: Line(program, start, end, false)
 {
 	CreateElement(0, 1);
@@ -12,7 +12,7 @@ Arrow::Arrow(glProgram& program, glm::vec3 start, glm::vec3 end, bool initialize
 		Initialize();
 }
 
-Arrow::Arrow(glProgram& program, glm::vec3 start, glm::vec3 end, glm::vec3 color, bool initialize)
+Arrow::Arrow(glProgram& program, glm::vec2 start, glm::vec2 end, glm::vec3 color, bool initialize)
 	: Line(program, start, end, color, false)
 {
 	CreateElement(0, 1);
@@ -27,10 +27,10 @@ void Arrow::MainDraw()
 	glDrawElements(GL_LINES, _eCount * 2, GL_UNSIGNED_INT, 0);
 }
 
-void Arrow::CreateHead(glm::vec3 start, glm::vec3 end, float t, glm::vec3 color)
+void Arrow::CreateHead(glm::vec2 start, glm::vec2 end, float t, glm::vec3 color)
 {
-	glm::vec3 diff = end - start;
-	glm::vec3 tVec = start + (diff * t);
+	glm::vec3 diff = glm::vec3(end.x - start.x, end.y - start.y, 0);
+	glm::vec3 tVec = glm::vec3(start.x, start.y, 0) + (diff * t);
 
 	_arrowSize = diff.length() * 0.05f;
 	glm::vec3 diffOffset = diff * (_arrowSize / 2.0f);

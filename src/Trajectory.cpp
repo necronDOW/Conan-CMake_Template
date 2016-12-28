@@ -2,33 +2,39 @@
 
 Trajectory::Trajectory() { }
 
-Trajectory::Trajectory(glProgram& program, Renderer* renderer, std::vector<std::string> vData)
+Trajectory::Trajectory(glProgram& program, Renderer* renderer, glm::vec2* &vData, int vSize)
 {
-	glm::vec3 last, current;
-	glm::vec3 scale = glm::vec3(0.001f);
-	glm::vec3 offset;
+	glm::vec2 last;
+	_scale = glm::vec2(0.001f);
 
-	for (unsigned int i = 0; i < vData.size(); i++)
+	for (unsigned int i = 0; i < vSize; i++)
 	{
-		AssetManager::FindValue(vData[i], 'X', current.x);
-		AssetManager::FindValue(vData[i], 'Y', current.y);
+		vData[i] = (vData[i] * _scale);
 
-		if (i > 0 && last != current)
+		if (i == 0)
+			_offset = -vData[i];
+
+		vData[i] += _offset;
+
+		if (i > 0)
 		{
-			glm::vec3 diff = current - last;
-			glm::vec3 tVec = last + (diff * 2.0f);
+			if (last != vData[i])
+			{
+				glm::vec2 diff = vData[i] - last;
+				glm::vec2 tVec = last + (diff * 2.0f);
 
-			renderer->AddToRender(new Arrow(program, (last * scale) + offset,
-				(tVec * scale) + offset));
+				renderer->AddToRender(new Arrow(program, last, tVec));
+			}
 		}
-		else offset = -(current * scale);
 
-		last.x = current.x;
-		last.y = current.y;
+		UpdateBounds((vData[i]));
+
+		last.x = vData[i].x;
+		last.y = vData[i].y;
 	}
 }
 
-Trajectory::Trajectory(glProgram& program, Renderer* renderer, std::vector<std::string> vData, std::vector<std::string> cData)
+Trajectory::Trajectory(glProgram& program, Renderer* renderer, glm::vec2* &vData, int vSize, std::vector<std::string> cData)
 {
 	
 }
@@ -37,3 +43,27 @@ void Trajectory::Update()
 {
 
 }
+
+void Trajectory::AssignBounds(glm::vec2 value)
+{
+	_hi = value;
+	_low = value;
+}
+
+void Trajectory::UpdateBounds(glm::vec2 check)
+{
+	if (check.x < _low.x)
+		_low.x = check.x;
+	else if (check.x > _hi.x)
+		_hi.x = check.x;
+
+	if (check.y < _low.y)
+		_low.y = check.y;
+	else if (check.y > _hi.y)
+		_hi.y = check.y;
+}
+
+glm::vec2 Trajectory::GetOffset() { return _offset; }
+glm::vec2 Trajectory::GetLow() { return _low; }
+glm::vec2 Trajectory::GetHi() { return _hi; }
+glm::vec2 Trajectory::GetRange() { return _hi - _low; }

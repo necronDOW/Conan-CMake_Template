@@ -2,45 +2,69 @@
 
 Plane::Plane() : DrawableBase() { }
 
-Plane::Plane(glProgram& program, glm::vec3 position, glm::vec2 dimensions, unsigned int sizeX, unsigned int sizeY, bool initialize)
-	: DrawableBase(program, position)
+Plane::Plane(glProgram& program, glm::vec2 position, glm::vec2 dimensions, 
+	unsigned int sizeX, unsigned int sizeY, float zOffset, bool initialize)
+	: DrawableBase(program, glm::vec3(position.x, position.y, 0))
 {
 	_size = glm::vec2(sizeX, sizeY);
+	_cellSize = glm::vec2(dimensions.x / (float)sizeX, dimensions.y / (float)sizeY);
 
-	cellSize = glm::vec2(dimensions.x / (float)sizeX, dimensions.y / (float)sizeY);
-	glm::vec3 offset = glm::vec3(-dimensions.x / 2.0f, -dimensions.y / 2.0f, 0.0f);
-	
-	for (int row = 0; row < sizeY + 1; row++)
-	{
-		for (int col = 0; col < sizeX + 1; col++)
-		{
-			CreateVertex(offset + glm::vec3(cellSize.x * (float)col, 
-				cellSize.y * (float)row, 0.0f));
-		}
-	}
-
-	for (int row = 0; row < sizeY; row++)
-	{
-		for (int col = 0; col < sizeX; col++)
-		{
-			int i = ((sizeY + 1) * row) + col;
-
-			CreateElement(i, i + 1, (sizeY + 1) + i);
-			CreateElement(i + 1, (sizeY + 1) + i + 1, (sizeY + 1) + i);
-		}
-	}
+	CreateVertices(glm::vec3(1), zOffset);
+	CreateElements();
 
 	if (initialize)
 		Initialize();
 }
 
-void Plane::ClampToPlane(glm::vec3& position)
+Plane::Plane(glProgram& program, glm::vec2 position, glm::vec2 dimensions, glm::vec3 color, 
+	unsigned int sizeX, unsigned int sizeY, float zOffset, bool initialize)
+	: DrawableBase(program, glm::vec3(position.x, position.y, 0))
 {
-	position.x = (int)(position.x / cellSize.x);
-	position.y = (int)(position.y / cellSize.y);
+	_size = glm::vec2(sizeX, sizeY);
+	_cellSize = glm::vec2(dimensions.x / (float)sizeX, dimensions.y / (float)sizeY);
+
+	CreateVertices(color, zOffset);
+	CreateElements();
+
+	if (initialize)
+		Initialize();
 }
 
+void Plane::ShadePlaneVertex(int indexX, int indexY, glm::vec3 color)
+{
+	ShadeVertex((indexY * _size.x) + indexX, color);
+}
+
+glm::vec2 Plane::GetCellSize() { return _cellSize; }
 glm::vec2 Plane::GetSize() { return _size; }
+
+void Plane::CreateVertices(glm::vec3 color, float zOffset)
+{
+	glm::vec3 offset = glm::vec3(0);//glm::vec3(-dimensions.x / 2.0f, -dimensions.y / 2.0f, 0.0f);
+
+	for (int row = 0; row < _size.y + 1; row++)
+	{
+		for (int col = 0; col < _size.x + 1; col++)
+		{
+			CreateVertex(offset + glm::vec3(_cellSize.x * (float)col,
+				_cellSize.y * (float)row, zOffset), color);
+		}
+	}
+}
+
+void Plane::CreateElements()
+{
+	for (int row = 0; row < _size.y; row++)
+	{
+		for (int col = 0; col < _size.x; col++)
+		{
+			int i = ((_size.y + 1) * row) + col;
+
+			CreateElement(i, i + 1, (_size.y + 1) + i);
+			CreateElement(i + 1, (_size.y + 1) + i + 1, (_size.y + 1) + i);
+		}
+	}
+}
 
 void Plane::MainDraw()
 {

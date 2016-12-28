@@ -2,24 +2,18 @@
 
 Heatmap::Heatmap() { }
 
-Heatmap::Heatmap(glProgram& program, Renderer* renderer, std::vector<std::string> vData)
+Heatmap::Heatmap(glProgram& program, Renderer* renderer, glm::vec2* &vData, int vSize, Trajectory* trajectory)
 {
-	Plane* p = new Plane(program, glm::vec3(0), glm::vec2(1), 100, 100, false);
+	Plane* p = new Plane(program, glm::vec2(0), trajectory->GetRange() * 2.0f, glm::vec3(0.1f), 100, 100, -0.001f, false);
 
-	for (int i = 0; i < vData.size(); i++)
-	{
-		glm::vec3 v;
-		AssetManager::FindValue(vData[i], 'X', v.x);
-		AssetManager::FindValue(vData[i], 'Y', v.y);
 
-		glm::vec3 scaledVector = glm::vec3(
-			v.x != 0 ? p->GetSize().x / v.x : v.x,
-			v.y != 0 ? p->GetSize().y / v.y : v.y, 
-			0);
-
-		p->ClampToPlane(scaledVector);
-	}
 
 	p->Initialize();
 	renderer->AddToRender(p);
+}
+
+void Heatmap::ClampToPlane(glm::vec2& position, Plane* p)
+{
+	position.x = (int)((position.x / p->GetCellSize().x) + 0.5f);
+	position.y = (int)((position.y / p->GetCellSize().y) + 0.5f);
 }

@@ -2,21 +2,21 @@
 
 Line::Line() : DrawableBase() { }
 
-Line::Line(glProgram& program, glm::vec3 start, glm::vec3 end, bool initialize)
-	: DrawableBase(program, start)
+Line::Line(glProgram& program, glm::vec2 start, glm::vec2 end, bool initialize)
+	: DrawableBase(program, glm::vec3(start.x, start.y, 0))
 {
-	CreateVertex(start);
-	CreateVertex(end);
+	CreateVertex(glm::vec3(start.x, start.y, 0));
+	CreateVertex(glm::vec3(end.x, end.y, 0));
 
 	if (initialize)
 		Initialize();
 }
 
-Line::Line(glProgram& program, glm::vec3 start, glm::vec3 end, glm::vec3 color, bool initialize)
-	: DrawableBase(program, start)
+Line::Line(glProgram& program, glm::vec2 start, glm::vec2 end, glm::vec3 color, bool initialize)
+	: DrawableBase(program, glm::vec3(start.x, start.y, 0))
 {
-	CreateVertex(start, color);
-	CreateVertex(end, color);
+	CreateVertex(glm::vec3(start.x, start.y, 0), color);
+	CreateVertex(glm::vec3(end.x, end.y, 0), color);
 
 	if (initialize)
 		Initialize();
