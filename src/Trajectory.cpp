@@ -4,39 +4,54 @@ Trajectory::Trajectory() { }
 
 Trajectory::Trajectory(glProgram& program, glm::vec2* &vData, unsigned int vSize)
 {
-	glm::vec2 last;
 	_scale = glm::vec2(0.001f);
+	float maxLen = 0.0f;
+
+	_colorLow = glm::vec3(1, 0, 0);
+	_colorHi = glm::vec3(0, 1, 0);
 
 	for (unsigned int i = 0; i < vSize; i++)
 	{
 		vData[i] *= _scale;
 
-		if (i == 0)
-			_offset = -vData[i];
-		else
+		if (i != 0)
 		{
-			if (last != vData[i])
-			{
-				glm::vec2 diff = vData[i] - last;
-				glm::vec2 tVec = last + (diff * 2.0f);
+			float len = glm::length(vData[i] - vData[i - 1]);
+			maxLen = len > maxLen ? len : maxLen;
+		}
+	}
 
-				Renderer::Get()->AddToRender(new Arrow(program, last + _offset, tVec + _offset));
-			}
+	_offset = -vData[0];
+
+	for (unsigned int i = 1; i < vSize; i++)
+	{
+		glm::vec2 last = _offset + vData[i - 1];
+		glm::vec2 current = _offset + vData[i];
+
+		if (last != current)
+		{
+			float vel = glm::length(current - last) / maxLen;
+			glm::vec3 color = (_colorLow * (1.0f - vel)) + (_colorHi * vel);
+
+			Arrow* tmp = new Arrow(program, last, current, color);
+			tmp->SetDraw(true);
+			_segments.push_back(tmp);
+			Renderer::Get()->AddToRender(tmp);
 		}
 
-		UpdateBounds((vData[i] + _offset));
-		last = vData[i];
+		UpdateBounds(_offset + vData[i]);
 	}
 }
 
-Trajectory::Trajectory(glProgram& program, glm::vec2* &vData, unsigned int vSize, std::vector<std::string> cData)
+float timer = 0.0f;
+void Trajectory::Update(float deltaTime)
 {
-	
-}
+	timer += deltaTime;
 
-void Trajectory::Update()
-{
-
+	if (timer > 0.1f)
+	{
+		timer = 0.0f;
+	}
 }
 
 void Trajectory::AssignBounds(glm::vec2 value)

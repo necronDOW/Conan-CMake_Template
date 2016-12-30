@@ -30,12 +30,12 @@ void Arrow::MainDraw()
 void Arrow::CreateHead(glm::vec2 start, glm::vec2 end, float t, glm::vec3 color)
 {
 	glm::vec3 diff = glm::vec3(end.x - start.x, end.y - start.y, 0);
-	glm::vec3 tVec = glm::vec3(start.x, start.y, 0) + (diff * t);
+	glm::vec3 tVec = glm::vec3(diff * t);
 
 	_arrowSize = diff.length() * 0.05f;
-	glm::vec3 diffOffset = diff * (_arrowSize / 2.0f);
+	glm::vec3 diffOffset = diff * _arrowSize;
 
-	CreateVertex(tVec + diffOffset, color);
+	CreateVertex(tVec, color);
 	CreateVertex(tVec - diffOffset + glm::vec3(-diff.y, diff.x, diff.z) * _arrowSize, color);
 	CreateVertex(tVec - diffOffset + glm::vec3(diff.y, -diff.x, diff.z) * _arrowSize, color);
 

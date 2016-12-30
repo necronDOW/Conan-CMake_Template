@@ -19,7 +19,7 @@ void DrawableBase::Initialize()
 		InitializeVertexArrayObject();
 		DebugTools::Log("Drawable Object initialized successfully!", DebugTools::Info, 1);
 
-		isReady = true;
+		_isReady = true;
 	}
 	else DebugTools::Log("Drawable Object failed to initialize!", DebugTools::Warn, 1);
 }
@@ -47,9 +47,11 @@ void DrawableBase::ShadeVertex(int index, glm::vec3 color)
 	}
 }
 
+void DrawableBase::SetDraw(bool value) { _draw = value; }
+
 void DrawableBase::Draw()
 {
-	if (isReady)
+	if (_isReady && _draw)
 	{
 		SetUniforms();
 

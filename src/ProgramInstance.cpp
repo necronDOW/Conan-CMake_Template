@@ -68,7 +68,7 @@ void ProgramInstance::HandleInput()
 				}
 
 				_renderer->Clear3DRender();
-				Trajectory t = Trajectory(_program, positions, tmp.size() - 1);
+				_trajectory = new Trajectory(_program, positions, tmp.size() - 1);
 				_renderer->AddToRender(new Heatmap(_program, positions, tmp.size() - 1));
 
 				delete[] positions;
@@ -84,9 +84,18 @@ void ProgramInstance::FixedUpdate()
 
 }
 
+float last = 0.0f;
 void ProgramInstance::Update()
 {
-	_camera.Update();
+	float now = (float)SDL_GetTicks() * 0.001f;
+	float deltaTime = now - last;
+
+	_camera.Update(deltaTime);
+
+	//if (_trajectory != nullptr)
+		//_trajectory->Update(deltaTime);
+
+	last = now;
 }
 
 void ProgramInstance::Render()

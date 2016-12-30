@@ -61,12 +61,12 @@ void Camera::HandleInput(SDL_Event event, glContext& context)
 			ScrollZoom(event.wheel.y, context);
 			break;
 	}
-
-	Translate(_translation);
 }
 
-void Camera::Update()
+void Camera::Update(float deltaTime)
 {
+	Translate(_translation);
+
 	_viewMatrix = glm::translate(glm::mat4(1.0f), _position);
 	_viewMatrix = glm::rotate(_viewMatrix, glm::radians(_rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
 	_viewMatrix = glm::rotate(_viewMatrix, glm::radians(_rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -80,8 +80,9 @@ void Camera::ScrollZoom(float amount, glContext& context)
 	glm::vec2 mousePos = glm::vec2(mouseX - (context.GetDimensions().w / 2),
 		mouseY - (context.GetDimensions().h / 2));
 
-	Translate(glm::vec3(-mousePos.x * 0.0001f,
-		mousePos.y * 0.0001f, amount * 0.1f));
+	float shift = amount * 0.0001f;
+	Translate(glm::vec3(-mousePos.x * shift,
+		mousePos.y * shift, amount * 0.1f));
 }
 
 glm::mat4 Camera::GetProjection() { return _projectionMatrix; }

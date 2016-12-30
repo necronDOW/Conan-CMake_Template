@@ -28,7 +28,7 @@ class Renderer
 		void Render();
 		void PostRender();
 		void Clean();
-		void AddToRender(DrawableBase* obj, bool is3D = true);
+		int AddToRender(DrawableBase* obj, bool is3D = true);
 		void ClearInterface();
 		void Clear3DRender();
 		void SetCamera(Camera* camera);

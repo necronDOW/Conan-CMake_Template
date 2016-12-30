@@ -29,6 +29,7 @@ class ProgramInstance
 		glProgram _program = glProgram();
 		Renderer* _renderer;
 		Camera _camera;
+		Trajectory* _trajectory = nullptr;
 };
 
 #endif

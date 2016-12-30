@@ -17,6 +17,7 @@ class DrawableBase
 		void Initialize();
 		virtual void Draw();
 		void ShadeVertex(int index, glm::vec3 color);
+		void SetDraw(bool value);
 
 	protected:
 		DrawableBase() { }
@@ -36,11 +37,12 @@ class DrawableBase
 		int _vCount = 0;
 		std::vector<GLuint> _eData;
 		int _eCount = 0, _eMax = 0;
+		bool _draw = true;
 
 	private:
 		void SetUniforms();
 
-		bool isReady = false;
+		bool _isReady = false;
 };
 
 #endif

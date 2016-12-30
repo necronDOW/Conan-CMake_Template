@@ -21,7 +21,7 @@ class Camera
 		void SetPosition(glm::vec3 newPosition);
 		void SetRotation(glm::vec3 newRotation);
 		void HandleInput(SDL_Event event, glContext& context);
-		void Update();
+		void Update(float deltaTime);
 
 		glm::mat4 GetProjection();
 		glm::mat4 GetView();
