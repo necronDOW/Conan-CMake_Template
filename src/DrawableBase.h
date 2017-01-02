@@ -34,9 +34,8 @@ class DrawableBase
 		glm::vec3 _position;
 		glm::mat4 _transformations;
 		std::vector<GLfloat> _vData;
-		int _vCount = 0;
 		std::vector<GLuint> _eData;
-		int _eCount = 0, _eMax = 0;
+		int _vCount = 0, _eCount = 0, _eMax = 0;
 		bool _draw = true;
 
 	private:

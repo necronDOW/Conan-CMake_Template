@@ -4,5 +4,6 @@
 #include "DrawableBase.h"
 #include "Line.h"
 #include "Arrow.h"
+#include "Plane.h"
 
 #endif

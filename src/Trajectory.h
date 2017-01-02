@@ -7,23 +7,18 @@
 class Trajectory
 {
 	public:
-		Trajectory(glProgram& program, glm::vec2* &vData, unsigned int vSize);
+		Trajectory(glProgram& program, glm::vec2* vData, unsigned int vSize);
 		void Update(float deltaTime);
 
-		glm::vec2 GetOffset();
 		glm::vec2 GetLow();
 		glm::vec2 GetHi();
 		glm::vec2 GetRange();
 
 	private:
 		Trajectory();
-		void AssignBounds(glm::vec2 value);
 		void UpdateBounds(glm::vec2 check);
 
-		glm::vec2 _offset;
 		glm::vec2 _low, _hi;
-		glm::vec2 _scale;
-		glm::vec3 _colorLow, _colorHi;
 		std::vector<Arrow*> _segments;
 };
 

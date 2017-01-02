@@ -23,6 +23,8 @@ class ProgramInstance
 		void FixedUpdate();
 		void Update();
 		void Render();
+		void ScalePositions(glm::vec2* &positions, unsigned int size, float scale);
+		void CentralizePositions(glm::vec2* &positions, unsigned int size);
 
 		bool done = false;
 		glContext _context = glContext("Metrics Visualization Tool", 1000, 1000);
@@ -30,6 +32,7 @@ class ProgramInstance
 		Renderer* _renderer;
 		Camera _camera;
 		Trajectory* _trajectory = nullptr;
+		Heatmap* _heatmap = nullptr;
 };
 
 #endif

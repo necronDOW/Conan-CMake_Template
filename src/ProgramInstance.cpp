@@ -61,15 +61,18 @@ void ProgramInstance::HandleInput()
 				AssetManager::ReadFile(event.drop.file, tmp);
 
 				glm::vec2* positions = new glm::vec2[tmp.size() - 1];
-				for (int i = 0; i < tmp.size(); i++)
+				for (unsigned int i = 0; i < tmp.size(); i++)
 				{
 					AssetManager::FindValue(tmp[i], 'X', positions[i].x);
 					AssetManager::FindValue(tmp[i], 'Y', positions[i].y);
 				}
 
 				_renderer->Clear3DRender();
+				
+				ScalePositions(positions, tmp.size() - 1, 0.001f);
+				CentralizePositions(positions, tmp.size() - 1);
 				_trajectory = new Trajectory(_program, positions, tmp.size() - 1);
-				_renderer->AddToRender(new Heatmap(_program, positions, tmp.size() - 1));
+				_renderer->AddToRender(new Heatmap(_program, positions, tmp.size() - 1, 20));
 
 				delete[] positions;
 				break;
@@ -92,8 +95,7 @@ void ProgramInstance::Update()
 
 	_camera.Update(deltaTime);
 
-	//if (_trajectory != nullptr)
-		//_trajectory->Update(deltaTime);
+
 
 	last = now;
 }
@@ -103,4 +105,18 @@ void ProgramInstance::Render()
 	_renderer->PreRender();
 	_renderer->Render();
 	_renderer->PostRender();
+}
+
+void ProgramInstance::ScalePositions(glm::vec2* &positions, unsigned int size, float scale)
+{
+	for (unsigned int i = 0; i < size; i++)
+		positions[i] *= glm::vec2(scale);
+}
+
+void ProgramInstance::CentralizePositions(glm::vec2* &positions, unsigned int size)
+{
+	glm::vec2 offset = -positions[0];
+
+	for (unsigned int i = 0; i < size; i++)
+		positions[i] += offset;
 }

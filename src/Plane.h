@@ -21,8 +21,7 @@ class Plane : public DrawableBase
 		void CreateElements();
 		virtual void MainDraw();
 
-		glm::vec2 _cellSize;
-		glm::vec2 _size;
+		glm::vec2 _cellSize, _size;
 };
 
 #endif

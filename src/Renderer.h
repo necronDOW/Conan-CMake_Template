@@ -40,8 +40,7 @@ class Renderer
 		GLuint _program;
 		glContext _context;
 		Camera* _camera = NULL;
-		GLint _projectionLocation;
-		GLint _viewLocation;
+		GLint _projectionLocation, _viewLocation;
 
 		std::vector<DrawableBase*> _interfaceObjs;
 		std::vector<DrawableBase*> _3DObjs;

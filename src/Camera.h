@@ -31,14 +31,10 @@ class Camera
 	private:
 		void ScrollZoom(float amount, glContext& context);
 
+		glm::vec3 _position, _rotation, _translation;
 		glm::mat4 _projectionMatrix;
 		glm::mat4 _viewMatrix;
-		GLint _svlProjection;
-		GLint _svlView;
-
-		glm::vec3 _position;
-		glm::vec3 _rotation;
-		glm::vec3 _translation;
+		GLint _svlProjection, _svlView;
 };
 
 #endif
