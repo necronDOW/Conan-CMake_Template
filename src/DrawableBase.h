@@ -16,7 +16,6 @@ class DrawableBase
 		DrawableBase(glProgram& program, glm::vec3 position);
 		void Initialize();
 		virtual void Draw();
-		void ShadeVertex(int index, glm::vec3 color);
 		void SetDraw(bool value);
 
 	protected:

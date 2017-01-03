@@ -5,8 +5,8 @@ Trajectory::Trajectory() { }
 Trajectory::Trajectory(glProgram& program, glm::vec2* vData, unsigned int vSize)
 {
 	float maxLen = 0.0f;
-	glm::vec3 colorLow = glm::vec3(1);
-	glm::vec3 colorHi = glm::vec3(0, 0.5f, 1);
+	glm::vec3 colorHi = RandomColor();
+	glm::vec3 colorLow = colorHi * 0.25f;
 
 	for (unsigned int i = 0; i < vSize; i++)
 	{
@@ -57,6 +57,16 @@ void Trajectory::UpdateBounds(glm::vec2 check)
 		_low.y = check.y;
 	else if (check.y > _hi.y)
 		_hi.y = check.y;
+}
+
+glm::vec3 Trajectory::RandomColor()
+{
+	float randMaxFloat = (float)RAND_MAX;
+	float r = (float)rand() / randMaxFloat;
+	float g = (float)rand() / randMaxFloat;
+	float b = (float)rand() / randMaxFloat;
+	
+	return glm::vec3(r, g, b);
 }
 
 glm::vec2 Trajectory::GetLow() { return _low; }

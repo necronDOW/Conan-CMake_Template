@@ -30,11 +30,6 @@ Plane::Plane(glProgram& program, glm::vec2 position, glm::vec2 dimensions, glm::
 		Initialize();
 }
 
-void Plane::ShadePlaneVertex(int indexX, int indexY, glm::vec3 color)
-{
-	ShadeVertex((indexY * _size.x) + indexX, color);
-}
-
 glm::vec2 Plane::GetCellSize() { return _cellSize; }
 glm::vec2 Plane::GetSize() { return _size; }
 

@@ -25,6 +25,7 @@ class ProgramInstance
 		void Render();
 		void ScalePositions(glm::vec2* &positions, unsigned int size, float scale);
 		void CentralizePositions(glm::vec2* &positions, unsigned int size);
+		bool PromptClearRender();
 
 		bool done = false;
 		glContext _context = glContext("Metrics Visualization Tool", 1000, 1000);

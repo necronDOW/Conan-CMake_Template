@@ -60,21 +60,22 @@ void ProgramInstance::HandleInput()
 				std::vector<std::string> tmp;
 				AssetManager::ReadFile(event.drop.file, tmp);
 
-				glm::vec2* positions = new glm::vec2[tmp.size() - 1];
-				for (unsigned int i = 0; i < tmp.size(); i++)
+				if (PromptClearRender())
 				{
-					AssetManager::FindValue(tmp[i], 'X', positions[i].x);
-					AssetManager::FindValue(tmp[i], 'Y', positions[i].y);
+					glm::vec2* positions = new glm::vec2[tmp.size() - 1];
+					for (unsigned int i = 0; i < tmp.size(); i++)
+					{
+						AssetManager::FindValue(tmp[i], 'X', positions[i].x);
+						AssetManager::FindValue(tmp[i], 'Y', positions[i].y);
+					}
+
+					ScalePositions(positions, tmp.size() - 1, 0.001f);
+					CentralizePositions(positions, tmp.size() - 1);
+					_trajectory = new Trajectory(_program, positions, tmp.size() - 1);
+					_renderer->AddToRender(new Heatmap(_program, positions, tmp.size() - 1, 25));
+					
+					delete[] positions;
 				}
-
-				_renderer->Clear3DRender();
-				
-				ScalePositions(positions, tmp.size() - 1, 0.001f);
-				CentralizePositions(positions, tmp.size() - 1);
-				_trajectory = new Trajectory(_program, positions, tmp.size() - 1);
-				_renderer->AddToRender(new Heatmap(_program, positions, tmp.size() - 1, 20));
-
-				delete[] positions;
 				break;
 		}
 
@@ -119,4 +120,35 @@ void ProgramInstance::CentralizePositions(glm::vec2* &positions, unsigned int si
 
 	for (unsigned int i = 0; i < size; i++)
 		positions[i] += offset;
+}
+
+bool ProgramInstance::PromptClearRender()
+{
+	const SDL_MessageBoxButtonData buttons[] = {
+		{ SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Cancel" },
+		{ 0, 1, "No" },
+		{ SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 2, "Yes" }
+	};
+
+	const SDL_MessageBoxData msgBoxData = {
+		SDL_MESSAGEBOX_INFORMATION,
+		NULL,
+		"File Loading ...",
+		"Would you like to clear the current Render Window?",
+		SDL_arraysize(buttons),
+		buttons
+	};
+
+	int buttonID;
+	SDL_ShowMessageBox(&msgBoxData, &buttonID);
+	switch (buttonID)
+	{
+		case 1:
+			return true;
+		case 2:
+			_renderer->Clear3DRender();
+			return true;
+		default:
+			return false;
+	}
 }

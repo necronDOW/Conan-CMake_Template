@@ -35,18 +35,6 @@ void DrawableBase::MainDraw()
 	glDrawArrays(GL_POINTS, 0, _vCount);
 }
 
-void DrawableBase::ShadeVertex(int index, glm::vec3 color)
-{
-	if (index < _vCount)
-	{
-		index *= 6;
-
-		_vData[index + 3] = color.r;
-		_vData[index + 4] = color.g;
-		_vData[index + 5] = color.b;
-	}
-}
-
 void DrawableBase::SetDraw(bool value) { _draw = value; }
 
 void DrawableBase::Draw()

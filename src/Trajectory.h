@@ -17,6 +17,7 @@ class Trajectory
 	private:
 		Trajectory();
 		void UpdateBounds(glm::vec2 check);
+		glm::vec3 RandomColor();
 
 		glm::vec2 _low, _hi;
 		std::vector<Arrow*> _segments;

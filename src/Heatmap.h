@@ -12,10 +12,12 @@ class Heatmap : public DrawableBase
 	protected:
 		Heatmap();
 		void CreateVertices(glm::vec2 size, glm::vec2 cellSize);
-		void CreateElements(glm::vec2 size);
+		void CreateElements(glm::vec2 size, float* histogram);
 		virtual void MainDraw();
 		void CalculateBounds(glm::vec2* vData, unsigned int vSize, glm::vec2 &minOut, glm::vec2 &maxOut);
 		glm::vec2 CalculateDivisions(glm::vec2 min, glm::vec2 max, int minimumDivisions, glm::vec2 &outCellDimensions);
+		float* CreateHistogram(glm::vec2 size, glm::vec2 cellSize, glm::vec2* vData, unsigned int vSize);
+		void ColourVertex(int index, glm::vec3 color);
 };
 
 #endif

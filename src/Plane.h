@@ -10,7 +10,6 @@ class Plane : public DrawableBase
 			unsigned int sizeX = 1, unsigned int sizeY = 1, float zOffset = 0.0f, bool initialize = true);
 		Plane(glProgram& program, glm::vec2 position, glm::vec2 dimensions, glm::vec3 color, 
 			unsigned int sizeX = 1, unsigned int sizeY = 1, float zOffset = 0.0f, bool initialize = true);
-		void ShadePlaneVertex(int indexX, int indexY, glm::vec3 color);
 
 		glm::vec2 GetCellSize();
 		glm::vec2 GetSize();
