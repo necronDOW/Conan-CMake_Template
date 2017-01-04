@@ -1,5 +1,6 @@
 #include "ProgramInstance.h"
 #include "Renderer.h"
+#include <time.h>
 
 ProgramInstance::ProgramInstance()
 {
@@ -70,9 +71,14 @@ void ProgramInstance::HandleInput()
 					}
 
 					ScalePositions(positions, tmp.size() - 1, 0.001f);
-					CentralizePositions(positions, tmp.size() - 1);
+					//CentralizePositions(positions, tmp.size() - 1);
 					_trajectory = new Trajectory(_program, positions, tmp.size() - 1);
-					_renderer->AddToRender(new Heatmap(_program, positions, tmp.size() - 1, 25));
+					if (_heatmap == nullptr)
+					{
+						_heatmap = new Heatmap(_program, positions, tmp.size() - 1, 25);
+						_renderer->AddToRender(_heatmap);
+					}
+					else _heatmap->AddPositions(positions, tmp.size() - 1);
 					
 					delete[] positions;
 				}
@@ -96,7 +102,7 @@ void ProgramInstance::Update()
 
 	_camera.Update(deltaTime);
 
-
+	srand(SDL_GetTicks());
 
 	last = now;
 }
@@ -146,6 +152,8 @@ bool ProgramInstance::PromptClearRender()
 		case 1:
 			return true;
 		case 2:
+			_trajectory = nullptr;
+			_heatmap = nullptr;
 			_renderer->Clear3DRender();
 			return true;
 		default:

@@ -25,7 +25,7 @@ Trajectory::Trajectory(glProgram& program, glm::vec2* vData, unsigned int vSize)
 		if (last != current)
 		{
 			float vel = glm::length(current - last) / maxLen;
-			glm::vec3 color = (colorLow * (1.0f - vel)) + (colorHi * vel);
+			glm::vec3 color = glm::vec3(0.25f) + (colorLow * (1.0f - vel)) + (colorHi * vel);
 
 			Arrow* tmp = new Arrow(program, last, current, color);
 			Renderer::Get()->AddToRender(tmp);

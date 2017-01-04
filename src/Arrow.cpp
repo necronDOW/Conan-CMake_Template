@@ -32,7 +32,7 @@ void Arrow::CreateHead(glm::vec2 start, glm::vec2 end, float t, glm::vec3 color)
 	glm::vec3 diff = glm::vec3(end.x - start.x, end.y - start.y, 0);
 	glm::vec3 tVec = glm::vec3(diff * t);
 
-	_arrowSize = diff.length() * 0.05f;
+	_arrowSize = diff.length() * 0.1f;
 	glm::vec3 diffOffset = diff * _arrowSize;
 
 	CreateVertex(tVec, color);

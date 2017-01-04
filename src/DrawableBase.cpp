@@ -35,8 +35,6 @@ void DrawableBase::MainDraw()
 	glDrawArrays(GL_POINTS, 0, _vCount);
 }
 
-void DrawableBase::SetDraw(bool value) { _draw = value; }
-
 void DrawableBase::Draw()
 {
 	if (_isReady && _draw)
@@ -47,6 +45,13 @@ void DrawableBase::Draw()
 		MainDraw();
 		glBindVertexArray(0);
 	}
+}
+
+void DrawableBase::SetDraw(bool value) { _draw = value; }
+
+void DrawableBase::Transform(glm::vec3 transform)
+{
+	_position += transform;
 }
 
 bool DrawableBase::InitializeVertexBuffer()
@@ -69,7 +74,7 @@ bool DrawableBase::InitializeVertexBuffer()
 			glBufferData(GL_ARRAY_BUFFER, _vData.size() * sizeof(_vData.front()), &_vData.front(), GL_STATIC_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-		_vData.clear();
+		//_vData.clear();
 	}
 
 	if (_eData.size() == 0)
@@ -88,7 +93,7 @@ bool DrawableBase::InitializeVertexBuffer()
 		if (_eMax > _vCount)
 			DebugTools::Log("One (or more) element indices exceed the vertex buffer size!", DebugTools::Warn, 2);
 
-		_eData.clear();
+		//_eData.clear();
 	}
 
 	return true;
@@ -120,6 +125,12 @@ void DrawableBase::InitializeVertexArrayObject()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	DebugTools::Log("Vertex array configured successfully!", DebugTools::Info, 2);
+}
+
+void DrawableBase::ReInitialize()
+{
+	InitializeVertexBuffer();
+	InitializeVertexArrayObject();
 }
 
 void DrawableBase::CreateVertex(glm::vec3 position, glm::vec3 color)
