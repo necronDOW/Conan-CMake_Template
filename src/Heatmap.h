@@ -3,7 +3,7 @@
 
 #include "DrawableBase.h"
 
-class Histogram2D
+class Histogram
 {
 	private:
 		float* _data;
@@ -12,8 +12,8 @@ class Histogram2D
 		float _maxValue;
 
 	public:
-		Histogram2D() { }
-		Histogram2D(unsigned int sizeX, unsigned int sizeY, glm::vec2 midCell)
+		Histogram() { }
+		Histogram(unsigned int sizeX, unsigned int sizeY, glm::vec2 midCell)
 		{
 			_sizeX = sizeX;
 			_sizeY = sizeY;
@@ -88,7 +88,7 @@ class Heatmap : public DrawableBase
 		glm::vec3 _lowColor;
 		glm::vec3 _midColor;
 		glm::vec3 _hiColor;
-		Histogram2D* _histogram;
+		Histogram* _histogram;
 };
 
 #endif

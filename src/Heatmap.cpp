@@ -38,7 +38,7 @@ Heatmap::Heatmap(glProgram& program, glm::vec2* vData, unsigned int vSize, unsig
 
 void Heatmap::AddPositions(glm::vec2* vData, unsigned int vSize)
 {
-	Histogram2D* h = new Histogram2D(_size.x, _size.y, _histogram->GetMidCell());
+	Histogram* h = new Histogram(_size.x, _size.y, _histogram->GetMidCell());
 
 	glm::vec2 halfSize = _size / 2.0f;
 	for (int i = 0; i < vSize; i++)
@@ -164,7 +164,7 @@ glm::vec2 Heatmap::CalculateDivisions(glm::vec2 min, glm::vec2 max, int minimumD
 
 void Heatmap::CreateHistogram(glm::vec2* vData, unsigned int vSize)
 {
-	_histogram = new Histogram2D(_size.x, _size.y, (glm::vec2(_position.x, _position.y)
+	_histogram = new Histogram(_size.x, _size.y, (glm::vec2(_position.x, _position.y)
 		+ glm::vec2(_cellSize.x * (_size.x / 2), _cellSize.y * (_size.y / 2)) + (_cellSize / 2.0f)));
 
 	glm::vec2 halfSize = _size / 2.0f;

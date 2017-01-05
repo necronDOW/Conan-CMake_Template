@@ -18,6 +18,8 @@ class DrawableBase
 		virtual void Draw();
 		void SetDraw(bool value);
 		void Transform(glm::vec3 transform);
+		glm::vec2 GetPositionV2();
+		glm::vec3 GetPositionV3();
 
 	protected:
 		DrawableBase() { }

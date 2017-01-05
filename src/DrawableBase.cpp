@@ -54,6 +54,9 @@ void DrawableBase::Transform(glm::vec3 transform)
 	_position += transform;
 }
 
+glm::vec2 DrawableBase::GetPositionV2() { return glm::vec2(_position.x, _position.y); }
+glm::vec3 DrawableBase::GetPositionV3() { return _position; }
+
 bool DrawableBase::InitializeVertexBuffer()
 {
 	DebugTools::Log("Generating buffers ...", DebugTools::Info, 1);
