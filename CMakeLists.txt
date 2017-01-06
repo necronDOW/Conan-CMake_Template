@@ -21,7 +21,10 @@ add_executable( ${PROJNAME} main.cpp
 	src/Arrow.cpp src/Arrow.h
 	src/Plane.cpp src/Plane.h
 	src/Trajectory.cpp src/Trajectory.h
-	src/Heatmap.cpp	src/Heatmap.h )
+	src/Heatmap.cpp	src/Heatmap.h 
+	src/DataSet.cpp src/DataSet.h
+	src/HeatmapNew.cpp src/HeatmapNew.h
+	src/Histogram2D.cpp src/Histogram2D.h )
 target_link_libraries(${PROJNAME} ${CONAN_LIBS})
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJNAME})
 

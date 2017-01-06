@@ -28,8 +28,8 @@ DataSet::DataSet(glProgram &program, std::string fileDir, HeatmapNew* heatmap, f
 
 	_trajectory = new Trajectory(program, _data, GetLength());
 
-	if (_heatmap == nullptr)
-		_heatmap = new HeatmapNew(program, this);
+	if (!_heatmap->IsInitialized())
+		*_heatmap = HeatmapNew(program, this);
 
 	_heatmap->AddHistogram(new Histogram2D(this, _heatmap, 25));
 }

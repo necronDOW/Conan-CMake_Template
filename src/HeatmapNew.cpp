@@ -42,14 +42,18 @@ void HeatmapNew::AddHistogram(Histogram2D* histogram)
 		Initialize();
 	}
 
-	_hiColor = glm::vec3(1, 0, 0);
+	_hiColor = GenerateRandomColor();
 	_midColor = _hiColor * 0.66f;
 	_lowColor = _hiColor * 0.33f;
 
 	for (int i = 0; i < histogram->GetLength(); i++)
 	{
 		float t = histogram->GetValue(i) / histogram->GetMax();
-		ColorCell(i * 4, GetColor(t));
+		glm::vec3 colorA = GetColor(t);
+		glm::vec3 colorB = GetCellColor(i * 4);
+		float div = colorA == glm::vec3(0) || colorB == glm::vec3(0) ? 1.0f : (float)_histograms.size();
+
+		ColorCell(i * 4, (colorA + colorB) / div);
 	}
 
 	ReInitialize();
@@ -65,10 +69,10 @@ void HeatmapNew::CreateVertices()
 	{
 		for (int col = 0; col < GetSize().x; col++)
 		{
-			CreateVertex(glm::vec3(cellSize.x * (float)col, cellSize.y * (float)row, 0), glm::vec3(0.1f));
-			CreateVertex(glm::vec3(cellSize.x * (float)(col + 1), cellSize.y * (float)row, 0), glm::vec3(0.1f));
-			CreateVertex(glm::vec3(cellSize.x * (float)(col + 1), cellSize.y * (float)(row + 1), 0), glm::vec3(0.1f));
-			CreateVertex(glm::vec3(cellSize.x * (float)col, cellSize.y * (float)(row + 1), 0), glm::vec3(0.1f));
+			CreateVertex(glm::vec3(cellSize.x * (float)col, cellSize.y * (float)row, 0), glm::vec3(0));
+			CreateVertex(glm::vec3(cellSize.x * (float)(col + 1), cellSize.y * (float)row, 0), glm::vec3(0));
+			CreateVertex(glm::vec3(cellSize.x * (float)(col + 1), cellSize.y * (float)(row + 1), 0), glm::vec3(0));
+			CreateVertex(glm::vec3(cellSize.x * (float)col, cellSize.y * (float)(row + 1), 0), glm::vec3(0));
 		}
 	}
 }
@@ -119,4 +123,22 @@ void HeatmapNew::ColorCell(int index, glm::vec3 color)
 		_vData[vIndex + 4] = color.y;
 		_vData[vIndex + 5] = color.z;
 	}
+}
+
+glm::vec3 HeatmapNew::GetCellColor(int index)
+{
+	index *= 6;
+
+	return glm::vec3(_vData[index + 3], _vData[index + 4], _vData[index + 5]);
+}
+
+glm::vec3 HeatmapNew::GenerateRandomColor()
+{
+	int r = rand() % 2;
+	int g = rand() % 2;
+	int b = rand() % 2;
+
+	if (r + g + b == 0)
+		return glm::vec3(1);
+	else return glm::vec3(r, g, b);
 }

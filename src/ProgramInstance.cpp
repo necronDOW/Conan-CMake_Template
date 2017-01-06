@@ -58,30 +58,12 @@ void ProgramInstance::HandleInput()
 				break;
 
 			case SDL_DROPFILE:
-				/*std::vector<std::string> tmp;
-				AssetManager::ReadFile(event.drop.file, tmp);*/
-
 				if (PromptClearRender())
 				{
-					DataSet* dataSet = new DataSet(_program, event.drop.file, _heatmap, 0.001f);
-					/*glm::vec2* positions = new glm::vec2[tmp.size() - 1];
-					for (unsigned int i = 0; i < tmp.size(); i++)
-					{
-						AssetManager::FindValue(tmp[i], 'X', positions[i].x);
-						AssetManager::FindValue(tmp[i], 'Y', positions[i].y);
-					}
-
-					ScalePositions(positions, tmp.size() - 1, 0.001f);*/
-					//CentralizePositions(positions, tmp.size() - 1);
-					/*_trajectory = new Trajectory(_program, positions, tmp.size() - 1);
 					if (_heatmap == nullptr)
-					{
-						_heatmap = new Heatmap(_program, positions, tmp.size() - 1, 25);
-						_renderer->AddToRender(_heatmap);
-					}
-					else _heatmap->AddPositions(positions, tmp.size() - 1);
-					
-					delete[] positions;*/
+						_heatmap = new HeatmapNew();
+
+					DataSet* dataSet = new DataSet(_program, event.drop.file, _heatmap, 0.001f);
 				}
 				break;
 		}
@@ -153,7 +135,7 @@ bool ProgramInstance::PromptClearRender()
 		case 1:
 			return true;
 		case 2:
-			_trajectory = nullptr;
+			_heatmap = nullptr;
 			_renderer->Clear3DRender();
 			return true;
 		default:

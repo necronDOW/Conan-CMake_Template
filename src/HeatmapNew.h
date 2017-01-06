@@ -27,6 +27,8 @@ class HeatmapNew : public DrawableBase
 		virtual void MainDraw();
 		glm::vec3 GetColor(float t);
 		void ColorCell(int index, glm::vec3 color);
+		glm::vec3 GetCellColor(int index);
+		glm::vec3 GenerateRandomColor();
 
 		glm::vec2 _midCell;
 		std::vector<Histogram2D*> _histograms;

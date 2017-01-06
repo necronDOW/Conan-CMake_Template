@@ -35,8 +35,6 @@ class ProgramInstance
 		glProgram _program = glProgram();
 		Renderer* _renderer;
 		Camera _camera;
-		Trajectory* _trajectory = nullptr;
-		//Heatmap* _heatmap = nullptr;
 		HeatmapNew* _heatmap = nullptr;
 };
 
