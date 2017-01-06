@@ -61,9 +61,10 @@ void ProgramInstance::HandleInput()
 				if (PromptClearRender())
 				{
 					if (_heatmap == nullptr)
-						_heatmap = new HeatmapNew();
+						_heatmap = new Heatmap();
 
 					DataSet* dataSet = new DataSet(_program, event.drop.file, _heatmap, 0.001f);
+					delete dataSet;
 				}
 				break;
 		}
@@ -97,20 +98,6 @@ void ProgramInstance::Render()
 	_renderer->PostRender();
 }
 
-void ProgramInstance::ScalePositions(glm::vec2* &positions, unsigned int size, float scale)
-{
-	for (unsigned int i = 0; i < size; i++)
-		positions[i] *= glm::vec2(scale);
-}
-
-void ProgramInstance::CentralizePositions(glm::vec2* &positions, unsigned int size)
-{
-	glm::vec2 offset = -positions[0];
-
-	for (unsigned int i = 0; i < size; i++)
-		positions[i] += offset;
-}
-
 bool ProgramInstance::PromptClearRender()
 {
 	const SDL_MessageBoxButtonData buttons[] = {
@@ -135,6 +122,7 @@ bool ProgramInstance::PromptClearRender()
 		case 1:
 			return true;
 		case 2:
+			delete _heatmap;
 			_heatmap = nullptr;
 			_renderer->Clear3DRender();
 			return true;

@@ -1,9 +1,9 @@
 #include "DataSet.h"
-#include "HeatmapNew.h"
+#include "Heatmap.h"
 #include "Histogram2D.h"
 
 // PUBLIC
-Histogram2D::Histogram2D(DataSet* dataSet, HeatmapNew* heatmap, int minimumBound)
+Histogram2D::Histogram2D(DataSet* dataSet, Heatmap* heatmap, int minimumBound)
 {
 	if (!heatmap->IsInitialized())
 	{
@@ -39,7 +39,7 @@ float Histogram2D::GetMax() { return _maxValue; }
 // PRIVATE
 Histogram2D::Histogram2D() { }
 
-void Histogram2D::Initialize(DataSet* dataSet, HeatmapNew* heatmap)
+void Histogram2D::Initialize(DataSet* dataSet, Heatmap* heatmap)
 {
 	glm::vec2 halfSize = GetSize() / 2.0f;
 	for (int i = 0; i < dataSet->GetLength(); i++)

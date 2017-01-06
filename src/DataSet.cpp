@@ -1,9 +1,9 @@
-#include "HeatmapNew.h"
+#include "Heatmap.h"
 #include "Histogram2D.h"
 #include "DataSet.h"
 
 // PUBLIC
-DataSet::DataSet(glProgram &program, std::string fileDir, HeatmapNew* heatmap, float scale)
+DataSet::DataSet(glProgram &program, std::string fileDir, Heatmap* heatmap, float scale)
 {
 	_scale = scale;
 	_heatmap = heatmap;
@@ -27,11 +27,19 @@ DataSet::DataSet(glProgram &program, std::string fileDir, HeatmapNew* heatmap, f
 	_length = tmp.size() - 1;
 
 	_trajectory = new Trajectory(program, _data, GetLength());
+	Renderer::Get()->AddToRender(_trajectory);
 
 	if (!_heatmap->IsInitialized())
-		*_heatmap = HeatmapNew(program, this);
+		*_heatmap = Heatmap(program, this);
 
 	_heatmap->AddHistogram(new Histogram2D(this, _heatmap, 25));
+}
+
+DataSet::~DataSet()
+{
+	delete[] _data;
+	//delete _trajectory;
+	_heatmap = nullptr;
 }
 
 glm::vec2 DataSet::Get(unsigned int index)

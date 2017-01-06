@@ -6,12 +6,12 @@
 #include <glm/gtc/type_ptr.hpp>
 
 class DataSet;
-class HeatmapNew;
+class Heatmap;
 
 class Histogram2D
 {
 	public:
-		Histogram2D(DataSet* dataSet, HeatmapNew* heatmap, int minimumBound);
+		Histogram2D(DataSet* dataSet, Heatmap* heatmap, int minimumBound);
 
 		float GetValue(unsigned int index);
 
@@ -23,7 +23,7 @@ class Histogram2D
 	private:
 		Histogram2D();
 
-		void Initialize(DataSet* dataSet, HeatmapNew* heatmap);
+		void Initialize(DataSet* dataSet, Heatmap* heatmap);
 		void CalculateBounds(DataSet* dataSet, unsigned int minimumBound, glm::vec2& outCellSize);
 		void CalculateMinMax();
 

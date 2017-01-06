@@ -10,12 +10,13 @@
 #include "AssetManager.h"
 
 class Histogram2D;
-class HeatmapNew;
+class Heatmap;
 
 class DataSet
 {
 	public:
-		DataSet(glProgram &program, std::string fileDir, HeatmapNew* heatmap, float scale);
+		DataSet(glProgram &program, std::string fileDir, Heatmap* heatmap, float scale);
+		~DataSet();
 
 		glm::vec2 Get(unsigned int index);
 
@@ -36,8 +37,7 @@ class DataSet
 		unsigned int _length;
 		float _scale;
 		Trajectory* _trajectory;
-		Histogram2D* _histogram;
-		HeatmapNew* _heatmap;
+		Heatmap* _heatmap;
 };
 
 #endif

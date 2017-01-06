@@ -3,6 +3,7 @@
 Trajectory::Trajectory() { }
 
 Trajectory::Trajectory(glProgram& program, glm::vec2* vData, unsigned int vSize)
+	: DrawableBase(program, glm::vec3(0))
 {
 	float maxLen = 0.0f;
 	glm::vec3 colorHi = RandomColor();
@@ -29,10 +30,24 @@ Trajectory::Trajectory(glProgram& program, glm::vec2* vData, unsigned int vSize)
 
 			Arrow* tmp = new Arrow(program, last, current, color);
 			Renderer::Get()->AddToRender(tmp);
-
-			UpdateBounds(vData[i]);
 		}
 	}
+
+	/*CreateVertex(glm::vec3(vData[0].x, vData[0].y, 0), glm::vec3(0));
+
+	for (int i = 1; i < vSize; i++)
+	{
+		glm::vec3 last = glm::vec3(vData[i - 1].x, vData[i - 1].y, 0);
+		glm::vec3 current = glm::vec3(vData[i].x, vData[i].y, 0);
+
+		float vel = glm::length(current - last) / maxLen;
+		glm::vec3 color = glm::vec3(0.25f) + (colorLow * (1.0f - vel)) + (colorHi * vel);
+
+		CreateVertex(current, color);
+		CreateElement(i - 1, i);
+	}
+
+	Initialize();*/
 }
 
 float timer = 0.0f;
@@ -46,17 +61,9 @@ void Trajectory::Update(float deltaTime)
 	}
 }
 
-void Trajectory::UpdateBounds(glm::vec2 check)
+void Trajectory::MainDraw()
 {
-	if (check.x < _low.x)
-		_low.x = check.x;
-	else if (check.x > _hi.x)
-		_hi.x = check.x;
-
-	if (check.y < _low.y)
-		_low.y = check.y;
-	else if (check.y > _hi.y)
-		_hi.y = check.y;
+	glDrawElements(GL_LINES, _eCount * 2, GL_UNSIGNED_INT, 0);
 }
 
 glm::vec3 Trajectory::RandomColor()
@@ -68,7 +75,3 @@ glm::vec3 Trajectory::RandomColor()
 	
 	return glm::vec3(r, g, b);
 }
-
-glm::vec2 Trajectory::GetLow() { return _low; }
-glm::vec2 Trajectory::GetHi() { return _hi; }
-glm::vec2 Trajectory::GetRange() { return _hi - _low; }

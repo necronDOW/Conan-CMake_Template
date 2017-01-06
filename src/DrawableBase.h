@@ -14,6 +14,7 @@ class DrawableBase
 {
 	public:
 		DrawableBase(glProgram& program, glm::vec3 position);
+		~DrawableBase();
 		void Initialize();
 		virtual void Draw();
 		void SetDraw(bool value);

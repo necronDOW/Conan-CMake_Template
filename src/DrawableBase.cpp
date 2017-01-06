@@ -12,6 +12,17 @@ DrawableBase::DrawableBase(glProgram& program, glm::vec3 position)
 	_position = position;
 }
 
+DrawableBase::~DrawableBase()
+{
+	/*glDeleteBuffers(1, &_vbo);
+	glDeleteVertexArrays(1, &_vao);
+
+	glDeleteBuffers(1, &_ebo);
+
+	_vData.clear();
+	_eData.clear();*/
+}
+
 void DrawableBase::Initialize()
 {
 	if (InitializeVertexBuffer())
