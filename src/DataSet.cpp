@@ -38,7 +38,7 @@ DataSet::DataSet(glProgram &program, std::string fileDir, Heatmap* heatmap, floa
 DataSet::~DataSet()
 {
 	delete[] _data;
-	//delete _trajectory;
+	_trajectory = nullptr;
 	_heatmap = nullptr;
 }
 
@@ -53,6 +53,7 @@ unsigned int DataSet::GetLength() { return _length; }
 glm::vec2 DataSet::GetMax() { return _max; }
 glm::vec2 DataSet::GetMin() { return _min; }
 float DataSet::GetBorderWidth() { return _heatmap->GetBorderWidth(); }
+Trajectory* DataSet::GetTrajectory() { return _trajectory; }
 
 // PRIVATE
 DataSet::DataSet() { }

@@ -5,20 +5,18 @@ Trajectory::Trajectory() { }
 Trajectory::Trajectory(glProgram& program, glm::vec2* vData, unsigned int vSize)
 	: DrawableBase(program, glm::vec3(0))
 {
-	float maxLen = 0.0f;
-	glm::vec3 colorHi = RandomColor();
-	glm::vec3 colorLow = colorHi * 0.25f;
-
+	_colorHi = RandomColor();
+	_colorLow = _colorHi * 0.1f;
 	for (unsigned int i = 0; i < vSize; i++)
 	{
 		if (i != 0)
 		{
 			float len = glm::length(vData[i] - vData[i - 1]);
-			maxLen = len > maxLen ? len : maxLen;
+			_maxLen = len > _maxLen ? len : _maxLen;
 		}
 	}
 
-	for (unsigned int i = 1; i < vSize; i++)
+	/*for (unsigned int i = 1; i < vSize; i++)
 	{
 		glm::vec2 last = vData[i - 1];
 		glm::vec2 current = vData[i];
@@ -31,23 +29,17 @@ Trajectory::Trajectory(glProgram& program, glm::vec2* vData, unsigned int vSize)
 			Arrow* tmp = new Arrow(program, last, current, color);
 			Renderer::Get()->AddToRender(tmp);
 		}
-	}
+	}*/
 
-	/*CreateVertex(glm::vec3(vData[0].x, vData[0].y, 0), glm::vec3(0));
-
-	for (int i = 1; i < vSize; i++)
+	for (int i = 0; i < vSize - 1; i++)
 	{
-		glm::vec3 last = glm::vec3(vData[i - 1].x, vData[i - 1].y, 0);
 		glm::vec3 current = glm::vec3(vData[i].x, vData[i].y, 0);
+		glm::vec3 next = glm::vec3(vData[i + 1].x, vData[i + 1].y, 0);
 
-		float vel = glm::length(current - last) / maxLen;
-		glm::vec3 color = glm::vec3(0.25f) + (colorLow * (1.0f - vel)) + (colorHi * vel);
-
-		CreateVertex(current, color);
-		CreateElement(i - 1, i);
+		CreateArrow(current, next, 0.5f, i);
 	}
 
-	Initialize();*/
+	Initialize();
 }
 
 float timer = 0.0f;
@@ -74,4 +66,31 @@ glm::vec3 Trajectory::RandomColor()
 	float b = (float)rand() / randMaxFloat;
 	
 	return glm::vec3(r, g, b);
+}
+
+void Trajectory::CreateArrow(glm::vec3 start, glm::vec3 end, float t, unsigned int index)
+{
+	glm::vec3 diff = end - start;
+	float len = glm::length(end - start);
+
+	glm::vec3 tVec = start + glm::vec3(diff * t);
+
+	float headSize = len * 4;
+	glm::vec3 headRad = diff * headSize;
+
+	float vel = len / _maxLen;
+	glm::vec3 color = glm::vec3(0.25f) + (_colorLow * (1.0f - vel)) + (_colorHi * vel);
+
+	if (index == 0)
+		CreateVertex(start, color);
+
+	index *= 4;
+	CreateVertex(tVec, color); // +1
+	CreateVertex(tVec - headRad + glm::vec3(-diff.y, diff.x, 0) * headSize, color); // +2
+	CreateVertex(tVec - headRad + glm::vec3(diff.y, -diff.x, 0) * headSize, color); // +3
+	CreateVertex(end, color); // +4
+
+	CreateElement(index, index + 4); // start -> end
+	CreateElement(index + 1, index + 2);
+	CreateElement(index + 1, index + 3);
 }

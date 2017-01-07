@@ -1,7 +1,6 @@
 #ifndef trajectory_h_defined
 #define trajectory_h_defined
 
-#include "Arrow.h"
 #include "Renderer.h"
 
 class Trajectory : public DrawableBase
@@ -14,6 +13,10 @@ class Trajectory : public DrawableBase
 		Trajectory();
 		virtual void MainDraw();
 		glm::vec3 RandomColor();
+		void CreateArrow(glm::vec3 start, glm::vec3 end, float t, unsigned int index);
+
+		glm::vec3 _colorLow, _colorHi;
+		float _maxLen;
 };
 
 #endif

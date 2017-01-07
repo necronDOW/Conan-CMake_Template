@@ -24,6 +24,7 @@ class DataSet
 		glm::vec2 GetMax();
 		glm::vec2 GetMin();
 		float GetBorderWidth();
+		Trajectory* GetTrajectory();
 
 	private:
 		DataSet();

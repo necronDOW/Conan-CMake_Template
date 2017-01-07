@@ -2,6 +2,7 @@
 #define programinstance_h_defined
 
 #include <iostream>
+#include <time.h>
 
 #include "glContext.h"
 #include "glProgram.h"
@@ -10,6 +11,7 @@
 #include "DataSet.h"
 #include "Trajectory.h"
 #include "Heatmap.h"
+#include "VisualHelper.h"
 
 class ProgramInstance
 {
@@ -25,6 +27,7 @@ class ProgramInstance
 		void Update();
 		void Render();
 		bool PromptClearRender();
+		void PromptDataSet(std::string fileDir);
 
 		bool done = false;
 		glContext _context = glContext("Metrics Visualization Tool", 1000, 1000);
@@ -32,6 +35,7 @@ class ProgramInstance
 		Renderer* _renderer;
 		Camera _camera;
 		Heatmap* _heatmap = nullptr;
+		std::vector<DataSet*> _dataSets;
 };
 
 #endif

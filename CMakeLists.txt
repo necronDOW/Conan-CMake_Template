@@ -7,7 +7,6 @@ include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
 add_executable( ${PROJNAME} main.cpp
-	src/SDL_Instance.cpp src/SDL_Instance.h 
 	src/DebugTools.cpp src/DebugTools.h
 	src/glContext.cpp src/glContext.h
 	src/glProgram.cpp src/glProgram.h
@@ -15,15 +14,12 @@ add_executable( ${PROJNAME} main.cpp
 	src/ProgramInstance.cpp src/ProgramInstance.h
 	src/Renderer.cpp src/Renderer.h 
 	src/Camera.cpp src/Camera.h
-	src/DrawableIncludes.h
 	src/DrawableBase.cpp src/DrawableBase.h 
-	src/Line.cpp src/Line.h
-	src/Arrow.cpp src/Arrow.h
-	src/Plane.cpp src/Plane.h
-	src/Trajectory.cpp src/Trajectory.h
 	src/DataSet.cpp src/DataSet.h
+	src/Histogram2D.cpp src/Histogram2D.h 
+	src/Trajectory.cpp src/Trajectory.h
 	src/Heatmap.cpp src/Heatmap.h
-	src/Histogram2D.cpp src/Histogram2D.h )
+	src/VisualHelper.cpp src/VisualHelper.h )
 
 target_link_libraries(${PROJNAME} ${CONAN_LIBS})
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJNAME})

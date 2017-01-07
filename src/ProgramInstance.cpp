@@ -1,6 +1,5 @@
 #include "ProgramInstance.h"
 #include "Renderer.h"
-#include <time.h>
 
 ProgramInstance::ProgramInstance()
 {
@@ -58,13 +57,12 @@ void ProgramInstance::HandleInput()
 				break;
 
 			case SDL_DROPFILE:
-				if (PromptClearRender())
+				if (!PromptClearRender())
 				{
 					if (_heatmap == nullptr)
 						_heatmap = new Heatmap();
 
-					DataSet* dataSet = new DataSet(_program, event.drop.file, _heatmap, 0.001f);
-					delete dataSet;
+					PromptDataSet(event.drop.file);
 				}
 				break;
 		}
@@ -100,33 +98,45 @@ void ProgramInstance::Render()
 
 bool ProgramInstance::PromptClearRender()
 {
-	const SDL_MessageBoxButtonData buttons[] = {
-		{ SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Cancel" },
-		{ 0, 1, "No" },
-		{ SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 2, "Yes" }
-	};
+	bool clear, cancel;
+	std::vector<MessageBoxOption*> msgOptions;
+	msgOptions.push_back(new MessageBoxOption("Yes", &clear));
+	msgOptions.push_back(new MessageBoxOption("No", NULL));
+	msgOptions.push_back(new MessageBoxOption("Cancel", &cancel));
 
-	const SDL_MessageBoxData msgBoxData = {
-		SDL_MESSAGEBOX_INFORMATION,
-		NULL,
-		"File Loading ...",
-		"Would you like to clear the current Render Window?",
-		SDL_arraysize(buttons),
-		buttons
-	};
+	DialogTools::ShowMessage("Loading Data ...", "Would you like to clear the current Render Window?", msgOptions);
 
-	int buttonID;
-	SDL_ShowMessageBox(&msgBoxData, &buttonID);
-	switch (buttonID)
+	if (clear)
 	{
-		case 1:
-			return true;
-		case 2:
-			delete _heatmap;
-			_heatmap = nullptr;
-			_renderer->Clear3DRender();
-			return true;
-		default:
-			return false;
+		delete _heatmap;
+		_heatmap = nullptr;
+		_renderer->Clear3DRender();
 	}
+
+	return cancel;
+}
+
+void ProgramInstance::PromptDataSet(std::string fileDir)
+{
+	DataSet* dataSet = new DataSet(_program, fileDir, _heatmap, 0.001f);
+	_dataSets.push_back(dataSet);
+
+	bool showHeatmap, showTrajectory, showBoth;
+	std::vector<MessageBoxOption*> msgOptions;
+	msgOptions.push_back(new MessageBoxOption("Show Heatmap", &showHeatmap));
+	msgOptions.push_back(new MessageBoxOption("Show Trajectory", &showTrajectory));
+	msgOptions.push_back(new MessageBoxOption("Show Both", &showBoth));
+
+	DialogTools::ShowMessage("Render Options", "Please choose whether you want to see the trajectory, heatmap or both.", msgOptions);
+
+	if (showBoth)
+		showHeatmap = showTrajectory = showBoth;
+
+	if (!showHeatmap)
+	{
+		// Need to figure this out.
+	}
+	
+	if (!showTrajectory)
+		dataSet->GetTrajectory()->SetDraw(false);
 }
