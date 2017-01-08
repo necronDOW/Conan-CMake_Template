@@ -51,9 +51,18 @@ void ProgramInstance::HandleInput()
 			case SDL_QUIT:
 				done = true;
 				break;
+
 			case SDL_KEYDOWN:
 				if (key == SDLK_ESCAPE)
 					done = true;
+				else
+				{
+					for (int i = 0; i < _dataSets.size(); i++)
+					{
+						if (key == _keyArray[i])
+							_dataSets[i]->ShowDisplayDialog();
+					}
+				}
 				break;
 
 			case SDL_DROPFILE:
@@ -144,7 +153,7 @@ void ProgramInstance::PromptDataSet(std::string fileDir)
 		showHeatmap = showTrajectory = showBoth;
 
 	if (showHeatmap)
-		_heatmap->ApplyLastHistogram();
+		dataSet->ShowHistogram();
 	
 	if (!showTrajectory)
 		dataSet->GetTrajectory()->SetDraw(false);

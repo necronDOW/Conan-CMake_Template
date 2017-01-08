@@ -6,13 +6,12 @@
 class Trajectory : public DrawableBase
 {
 	public:
-		Trajectory(glProgram& program, glm::vec2* vData, unsigned int vSize);
+		Trajectory(glProgram& program, glm::vec2* vData, unsigned int vSize, glm::vec3 color);
 		void Update(float deltaTime);
 
 	protected:
 		Trajectory();
 		virtual void MainDraw();
-		glm::vec3 RandomColor();
 		void CreateArrow(glm::vec3 start, glm::vec3 end, float t, unsigned int index);
 
 		glm::vec3 _colorLow, _colorHi;

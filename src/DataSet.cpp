@@ -26,13 +26,15 @@ DataSet::DataSet(glProgram &program, std::string fileDir, Heatmap* heatmap, floa
 
 	_length = tmp.size() - 1;
 
-	_trajectory = new Trajectory(program, _data, GetLength());
+	glm::vec3 color = PromptColorChoice();
+
+	_trajectory = new Trajectory(program, _data, GetLength(), color * 0.75f);
 	Renderer::Get()->AddToRender(_trajectory);
 
 	if (!_heatmap->IsInitialized())
 		*_heatmap = Heatmap(program, this);
 
-	_heatmap->AddHistogram(new Histogram2D(this, _heatmap, 25));
+	_histogramIndex = _heatmap->AddHistogram(new Histogram2D(this, _heatmap, 25), color);
 }
 
 DataSet::~DataSet()
@@ -47,6 +49,59 @@ glm::vec2 DataSet::Get(unsigned int index)
 	if (index < _length)
 		return _data[index];
 	else return glm::vec2(0);
+}
+
+void DataSet::Show()
+{
+	ShowTrajectory();
+	ShowHistogram();
+}
+
+void DataSet::ShowTrajectory()
+{
+	_trajectory->SetDraw(true);
+}
+
+void DataSet::ShowHistogram()
+{
+	glm::vec3 colorSelected = _heatmap->GetHistogramContainer(_histogramIndex)->color;
+	_heatmap->ApplyHistogram(_histogramIndex);
+}
+
+void DataSet::Hide()
+{
+	HideTrajectory();
+	HideHistogram();
+}
+
+void DataSet::HideTrajectory()
+{
+	_trajectory->SetDraw(false);
+}
+
+void DataSet::HideHistogram()
+{
+	_heatmap->SubtractHistogram(_histogramIndex);
+}
+
+void DataSet::ShowDisplayDialog()
+{
+	bool heatmapVisualised = _heatmap->GetHistogramContainer(_histogramIndex)->visualised;
+
+	bool toggleTrajectory, toggleHeatmap;
+	char* trajectoryText = _trajectory->IsDrawn() ? "Hide Trajectory" : "Show Trajectory";
+	char* heatmapText = heatmapVisualised ? "Hide Heatmap" : "Show Heatmap";
+
+	std::vector<MessageBoxOption*> msgOptions;
+	msgOptions.push_back(new MessageBoxOption(trajectoryText, &toggleTrajectory));
+	msgOptions.push_back(new MessageBoxOption(heatmapText, &toggleHeatmap));
+
+	DialogTools::ShowMessage("Data Set Render Options", "", msgOptions);
+
+	if (toggleTrajectory)
+		_trajectory->SetDraw(!_trajectory->IsDrawn());
+	else if (toggleHeatmap)
+		heatmapVisualised ? HideHistogram() : ShowHistogram();
 }
 
 unsigned int DataSet::GetLength() { return _length; }
@@ -108,4 +163,32 @@ bool DataSet::IsNum(std::string str)
 	}
 
 	return true;
+}
+
+glm::vec3 DataSet::PromptColorChoice()
+{
+	bool red, green, blue, yellow, magenta, cyan;
+	Color* color = Color::Get();
+	std::vector<MessageBoxOption*> msgOptions;
+	msgOptions.push_back(new MessageBoxOption("Red", &red));
+	msgOptions.push_back(new MessageBoxOption("Green", &green));
+	msgOptions.push_back(new MessageBoxOption("Blue", &blue));
+	msgOptions.push_back(new MessageBoxOption("Yellow", &yellow));
+	msgOptions.push_back(new MessageBoxOption("Magenta", &magenta));
+	msgOptions.push_back(new MessageBoxOption("Cyan", &cyan));
+
+	DialogTools::ShowMessage("Color Options", "Please choose the display color for this data.", msgOptions);
+
+	if (red)
+		return color->GetColor(Palette::Red);
+	else if (green)
+		return color->GetColor(Palette::Green);
+	else if (blue)
+		return color->GetColor(Palette::Blue);
+	else if (yellow)
+		return color->GetColor(Palette::Yellow);
+	else if (magenta)
+		return color->GetColor(Palette::Magenta);
+	else if (cyan)
+		return color->GetColor(Palette::Cyan);
 }

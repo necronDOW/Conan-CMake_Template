@@ -47,6 +47,8 @@ class Color
 		glm::vec3 GetColor(Palette choice);
 		glm::vec3 GetColor(unsigned int choice);
 		glm::vec3 CombineColor(glm::vec3 colorA, glm::vec3 colorB, int constant);
+		glm::vec3 SubtractColor(glm::vec3 colorA, glm::vec3 colorB, int constant);
+		glm::vec3 InvertColor(glm::vec3 color);
 
 	private:
 		Color() { }

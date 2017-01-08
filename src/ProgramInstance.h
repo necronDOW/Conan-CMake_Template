@@ -1,6 +1,8 @@
 #ifndef programinstance_h_defined
 #define programinstance_h_defined
 
+#define KEYARRAY_SIZE 10
+
 #include <iostream>
 #include <time.h>
 
@@ -15,6 +17,12 @@
 
 class ProgramInstance
 {
+	const SDL_Keycode _keyArray[KEYARRAY_SIZE]
+	{
+		SDLK_1, SDLK_2, SDLK_3, SDLK_4, SDLK_5, 
+		SDLK_6, SDLK_7, SDLK_8, SDLK_9, SDLK_0
+	};
+
 	public:
 		ProgramInstance();
 		~ProgramInstance();

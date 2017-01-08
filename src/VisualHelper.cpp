@@ -51,3 +51,17 @@ glm::vec3 Color::CombineColor(glm::vec3 colorA, glm::vec3 colorB, int constant)
 	float c = (float)constant;
 	return ((colorA * c) + colorB) / (c + 1);
 }
+
+glm::vec3 Color::SubtractColor(glm::vec3 colorA, glm::vec3 colorB, int constant)
+{
+	if (colorB == glm::vec3(0))
+		return colorA;
+
+	float c = (float)constant;
+	return ((colorA * c) - colorB) / (c - 1);
+}
+
+glm::vec3 Color::InvertColor(glm::vec3 color)
+{
+	return glm::vec3(1) - color;
+}

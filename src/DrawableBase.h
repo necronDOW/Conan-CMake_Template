@@ -18,6 +18,7 @@ class DrawableBase
 		void Initialize();
 		virtual void Draw();
 		void SetDraw(bool value);
+		bool IsDrawn();
 		void Transform(glm::vec3 transform);
 		glm::vec2 GetPositionV2();
 		glm::vec3 GetPositionV3();

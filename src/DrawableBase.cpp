@@ -59,6 +59,7 @@ void DrawableBase::Draw()
 }
 
 void DrawableBase::SetDraw(bool value) { _draw = value; }
+bool DrawableBase::IsDrawn() { return _draw; }
 
 void DrawableBase::Transform(glm::vec3 transform)
 {

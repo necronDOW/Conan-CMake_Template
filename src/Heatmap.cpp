@@ -31,12 +31,14 @@ bool Heatmap::IsInitialized()
 glm::vec2 Heatmap::GetSize()
 {
 	if (_histograms.size() > 0)
-		return _histograms[0]->GetSize();
+		return _histograms[0]->histogram->GetSize();
 }
 
-void Heatmap::AddHistogram(Histogram2D* histogram)
+unsigned int Heatmap::AddHistogram(Histogram2D* histogram, glm::vec3 color)
 {
-	_histograms.push_back(histogram);
+	HistogramContainer* h = new HistogramContainer(histogram);
+	h->color = color;
+	_histograms.push_back(h);
 
 	if (_histograms.size() == 1)
 	{
@@ -48,31 +50,69 @@ void Heatmap::AddHistogram(Histogram2D* histogram)
 		Renderer::Get()->AddToRender(this);
 		Initialize();
 	}
+
+	return _histograms.size() - 1;
 }
 
-void Heatmap::ApplyLastHistogram()
+void Heatmap::ApplyHistogram(unsigned int index)
 {
-	ApplyHistogram(_histograms[_histograms.size() - 1]);
-}
-
-void Heatmap::ApplyHistogram(Histogram2D* histogram)
-{
-	PromptColorChoice();
-	_midColor = _hiColor * 0.66f;
-	_lowColor = _hiColor * 0.33f;
-
-	for (int i = 0; i < histogram->GetLength(); i++)
+	if (index < _histograms.size() && !_histograms[index]->visualised)
 	{
-		float t = histogram->GetValue(i) / histogram->GetMax();
-		glm::vec3 colorA = GetCellColor(i * 4);
-		glm::vec3 colorB = GetColor(t);
+		Histogram2D* histogram = _histograms[index]->histogram;
 
-		ColorCell(i * 4, Color::Get()->CombineColor(colorA, colorB, _histogramsVisualised));
+		glm::vec3 baseColor = _histograms[index]->color;
+		glm::vec3 midColor = baseColor * 0.66f;
+		glm::vec3 lowColor = baseColor * 0.33f;
+		unsigned int heatmapsVisualised = HeatmapsVisualised();
+
+		for (int i = 0; i < histogram->GetLength(); i++)
+		{
+			float t = histogram->GetValue(i) / histogram->GetMax();
+			glm::vec3 colorA = GetCellColor(i * 4);
+			glm::vec3 colorB = GetColor(baseColor, midColor, lowColor, t);
+
+			ColorCell(i * 4, Color::Get()->CombineColor(colorA, colorB, heatmapsVisualised));
+		}
+
+		_histograms[index]->visualised = true;
+
+		ReInitialize();
 	}
+}
 
-	_histogramsVisualised++;
+void Heatmap::SubtractHistogram(unsigned int index)
+{
+	if (index < _histograms.size() && _histograms[index]->visualised)
+	{
+		Histogram2D* histogram = _histograms[index]->histogram;
 
-	ReInitialize();
+		glm::vec3 baseColor = _histograms[index]->color;
+		glm::vec3 midColor = baseColor * 0.66f;
+		glm::vec3 lowColor = baseColor * 0.33f;
+		unsigned int heatmapsVisualised = HeatmapsVisualised();
+
+		for (int i = 0; i < histogram->GetLength(); i++)
+		{
+			float t = histogram->GetValue(i) / histogram->GetMax();
+			glm::vec3 colorA = GetCellColor(i * 4);
+			glm::vec3 colorB = GetColor(baseColor, midColor, lowColor, t);
+			
+			if (colorA != colorB)
+				ColorCell(i * 4, Color::Get()->SubtractColor(colorA, colorB, heatmapsVisualised));
+			else ColorCell(i * 4, glm::vec3(0));
+		}
+
+		_histograms[index]->visualised = false;
+
+		ReInitialize();
+	}
+}
+
+HistogramContainer* Heatmap::GetHistogramContainer(int index)
+{
+	if (index < _histograms.size())
+		return _histograms[index];
+	else return nullptr;
 }
 
 glm::vec2 Heatmap::GetMidCell() { return _midCell; }
@@ -112,34 +152,9 @@ void Heatmap::MainDraw()
 	glDrawElements(GL_TRIANGLES, _eCount * 3, GL_UNSIGNED_INT, 0);
 }
 
-void Heatmap::PromptColorChoice()
-{
-	bool red, green, blue, yellow, magenta, cyan;
-	std::vector<MessageBoxOption*> msgOptions;
-	msgOptions.push_back(new MessageBoxOption("Red", &red));
-	msgOptions.push_back(new MessageBoxOption("Green", &green));
-	msgOptions.push_back(new MessageBoxOption("Blue", &blue));
-	msgOptions.push_back(new MessageBoxOption("Yellow", &yellow));
-	msgOptions.push_back(new MessageBoxOption("Magenta", &magenta));
-	msgOptions.push_back(new MessageBoxOption("Cyan", &cyan));
 
-	DialogTools::ShowMessage("Color Options", "Please choose the heatmap color.", msgOptions);
 
-	if (red) 
-		_hiColor = Color::Get()->GetColor(Palette::Red);
-	else if (green) 
-		_hiColor = Color::Get()->GetColor(Palette::Green);
-	else if (blue) 
-		_hiColor = Color::Get()->GetColor(Palette::Blue);
-	else if (yellow) 
-		_hiColor = Color::Get()->GetColor(Palette::Yellow);
-	else if (magenta) 
-		_hiColor = Color::Get()->GetColor(Palette::Magenta);
-	else if (cyan) 
-		_hiColor = Color::Get()->GetColor(Palette::Cyan);
-}
-
-glm::vec3 Heatmap::GetColor(float t)
+glm::vec3 Heatmap::GetColor(glm::vec3 hiColor, glm::vec3 midColor, glm::vec3 lowColor, float t)
 {
 	glm::vec3 color;
 	if (t > 0)
@@ -148,8 +163,8 @@ glm::vec3 Heatmap::GetColor(float t)
 		float mult = 1.0f / band;
 
 		if (t < band)
-			color = (_lowColor  * (band - t) * mult) + (_midColor * t * mult);
-		else color = (_midColor * (1.0f - t) * mult) + (_hiColor * (t - band) * mult);
+			color = (lowColor  * (band - t) * mult) + (midColor * t * mult);
+		else color = (midColor * (1.0f - t) * mult) + (hiColor * (t - band) * mult);
 	}
 	else color = glm::vec3(0);
 
@@ -173,4 +188,14 @@ glm::vec3 Heatmap::GetCellColor(int index)
 	index *= 6;
 
 	return glm::vec3(_vData[index + 3], _vData[index + 4], _vData[index + 5]);
+}
+
+unsigned int Heatmap::HeatmapsVisualised()
+{
+	unsigned int value = 0;
+
+	for each (HistogramContainer* h in _histograms)
+		value += h->visualised;
+
+	return value;
 }

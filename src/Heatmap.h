@@ -7,6 +7,25 @@
 class Histogram2D;
 class DataSet;
 
+struct HistogramContainer
+{
+	Histogram2D* histogram;
+	glm::vec3 color;
+	bool visualised;
+
+	HistogramContainer(Histogram2D* h)
+	{
+		histogram = h;
+		color = glm::vec3(-1);
+		visualised = false;
+	}
+
+	bool ColorApplied()
+	{
+		return !(color == glm::vec3(-1));
+	}
+};
+
 class Heatmap : public DrawableBase
 {
 	public:
@@ -16,9 +35,10 @@ class Heatmap : public DrawableBase
 		void OffsetMidCell(glm::vec2 value);
 		bool IsInitialized();
 		glm::vec2 GetSize();
-		void AddHistogram(Histogram2D* histogram);
-		void ApplyLastHistogram();
-		void ApplyHistogram(Histogram2D* histogram);
+		unsigned int AddHistogram(Histogram2D* histogram, glm::vec3 color);
+		void ApplyHistogram(unsigned int index);
+		void SubtractHistogram(unsigned int index);
+		HistogramContainer* GetHistogramContainer(int index);
 
 		glm::vec2 GetMidCell();
 		float GetBorderWidth();
@@ -29,18 +49,15 @@ class Heatmap : public DrawableBase
 		void CreateVertices();
 		void CreateElements();
 		virtual void MainDraw();
-		void PromptColorChoice();
-		glm::vec3 GetColor(float t);
+		glm::vec3 GetColor(glm::vec3 hiColor, glm::vec3 midColor, glm::vec3 lowColor, float t);
 		void ColorCell(int index, glm::vec3 color);
 		glm::vec3 GetCellColor(int index);
+		unsigned int HeatmapsVisualised();
 
 		glm::vec2 _midCell;
-		std::vector<Histogram2D*> _histograms;
-		glm::vec3 _lowColor;
-		glm::vec3 _midColor;
-		glm::vec3 _hiColor;
+		glm::vec2 _baseDimensions;
+		std::vector<HistogramContainer*> _histograms;
 		float _borderWidth = 0.2f;
-		unsigned int _histogramsVisualised = 0;
 };
 
 #endif

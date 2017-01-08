@@ -19,6 +19,13 @@ class DataSet
 		~DataSet();
 
 		glm::vec2 Get(unsigned int index);
+		void Show();
+		void ShowTrajectory();
+		void ShowHistogram();
+		void Hide();
+		void HideTrajectory();
+		void HideHistogram();
+		void ShowDisplayDialog();
 
 		unsigned int GetLength();
 		glm::vec2 GetMax();
@@ -32,6 +39,7 @@ class DataSet
 		void UpdateMinMax(glm::vec2 check);
 		bool ParseValue(std::string str, char id, float &out);
 		bool IsNum(std::string str);
+		glm::vec3 PromptColorChoice();
 
 		glm::vec2* _data;
 		glm::vec2 _max, _min = glm::vec2(99999.0f);
@@ -39,6 +47,7 @@ class DataSet
 		float _scale;
 		Trajectory* _trajectory;
 		Heatmap* _heatmap;
+		unsigned int _histogramIndex;
 };
 
 #endif
