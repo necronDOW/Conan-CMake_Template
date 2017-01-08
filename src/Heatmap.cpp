@@ -71,7 +71,9 @@ void Heatmap::ApplyHistogram(unsigned int index)
 			glm::vec3 colorA = GetCellColor(i * 4);
 			glm::vec3 colorB = GetColor(baseColor, midColor, lowColor, t);
 
-			ColorCell(i * 4, Color::Get()->CombineColor(colorA, colorB, heatmapsVisualised));
+			if (heatmapsVisualised > 0)
+				ColorCell(i * 4, Color::Get()->CombineColor(colorA, colorB, heatmapsVisualised));
+			else ColorCell(i * 4, colorB);
 		}
 
 		_histograms[index]->visualised = true;
