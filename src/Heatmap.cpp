@@ -56,7 +56,7 @@ unsigned int Heatmap::AddHistogram(Histogram2D* histogram, glm::vec3 color)
 
 void Heatmap::ApplyHistogram(unsigned int index)
 {
-	if (index < _histograms.size() && !_histograms[index]->visualised)
+	if (index < _histograms.size())
 	{
 		Histogram2D* histogram = _histograms[index]->histogram;
 
@@ -86,6 +86,25 @@ void Heatmap::SubtractHistogram(unsigned int index)
 {
 	if (index < _histograms.size() && _histograms[index]->visualised)
 	{
+		_histograms[index]->visualised = false;
+
+		for (unsigned int i = 0; i < GetSize().x * GetSize().y; i++)
+			ColorCell(i * 4, glm::vec3(0));
+
+		if (HeatmapsVisualised() > 0)
+		{
+			for (unsigned int i = 0; i < _histograms.size(); i++)
+			{
+				if (_histograms[i]->visualised)
+					ApplyHistogram(i);
+			}
+		}
+		else ReInitialize();
+	}
+
+	// Future optimization ...
+	/*if (index < _histograms.size() && _histograms[index]->visualised)
+	{
 		Histogram2D* histogram = _histograms[index]->histogram;
 
 		glm::vec3 baseColor = _histograms[index]->color;
@@ -107,7 +126,7 @@ void Heatmap::SubtractHistogram(unsigned int index)
 		_histograms[index]->visualised = false;
 
 		ReInitialize();
-	}
+	}*/
 }
 
 HistogramContainer* Heatmap::GetHistogramContainer(int index)
