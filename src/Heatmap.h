@@ -57,7 +57,7 @@ class Heatmap : public DrawableBase
 		glm::vec2 _midCell;
 		glm::vec2 _baseDimensions;
 		std::vector<HistogramContainer*> _histograms;
-		float _borderWidth = 0.2f;
+		float _borderWidth = 0.45f;
 };
 
 #endif
