@@ -57,7 +57,17 @@ void ProgramInstance::HandleInput()
 				break;
 
 			case SDL_DROPFILE:
-				if (!PromptClearRender())
+				if (_dataSets.size() != 0)
+				{
+					if (!PromptClearRender())
+					{
+						if (_heatmap == nullptr)
+							_heatmap = new Heatmap();
+
+						PromptDataSet(event.drop.file);
+					}
+				}
+				else
 				{
 					if (_heatmap == nullptr)
 						_heatmap = new Heatmap();
@@ -111,6 +121,7 @@ bool ProgramInstance::PromptClearRender()
 		delete _heatmap;
 		_heatmap = nullptr;
 		_renderer->Clear3DRender();
+		_dataSets.clear();
 	}
 
 	return cancel;
@@ -132,10 +143,8 @@ void ProgramInstance::PromptDataSet(std::string fileDir)
 	if (showBoth)
 		showHeatmap = showTrajectory = showBoth;
 
-	if (!showHeatmap)
-	{
-		// Need to figure this out.
-	}
+	if (showHeatmap)
+		_heatmap->ApplyLastHistogram();
 	
 	if (!showTrajectory)
 		dataSet->GetTrajectory()->SetDraw(false);

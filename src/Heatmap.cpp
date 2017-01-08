@@ -48,20 +48,29 @@ void Heatmap::AddHistogram(Histogram2D* histogram)
 		Renderer::Get()->AddToRender(this);
 		Initialize();
 	}
+}
 
-	_hiColor = GenerateRandomColor();
+void Heatmap::ApplyLastHistogram()
+{
+	ApplyHistogram(_histograms[_histograms.size() - 1]);
+}
+
+void Heatmap::ApplyHistogram(Histogram2D* histogram)
+{
+	PromptColorChoice();
 	_midColor = _hiColor * 0.66f;
 	_lowColor = _hiColor * 0.33f;
 
 	for (int i = 0; i < histogram->GetLength(); i++)
 	{
 		float t = histogram->GetValue(i) / histogram->GetMax();
-		glm::vec3 colorA = GetColor(t);
-		glm::vec3 colorB = GetCellColor(i * 4);
-		float div = colorA == glm::vec3(0) || colorB == glm::vec3(0) ? 1.0f : (float)_histograms.size();
+		glm::vec3 colorA = GetCellColor(i * 4);
+		glm::vec3 colorB = GetColor(t);
 
-		ColorCell(i * 4, (colorA + colorB) / div);
+		ColorCell(i * 4, Color::Get()->CombineColor(colorA, colorB, _histogramsVisualised));
 	}
+
+	_histogramsVisualised++;
 
 	ReInitialize();
 }
@@ -103,6 +112,33 @@ void Heatmap::MainDraw()
 	glDrawElements(GL_TRIANGLES, _eCount * 3, GL_UNSIGNED_INT, 0);
 }
 
+void Heatmap::PromptColorChoice()
+{
+	bool red, green, blue, yellow, magenta, cyan;
+	std::vector<MessageBoxOption*> msgOptions;
+	msgOptions.push_back(new MessageBoxOption("Red", &red));
+	msgOptions.push_back(new MessageBoxOption("Green", &green));
+	msgOptions.push_back(new MessageBoxOption("Blue", &blue));
+	msgOptions.push_back(new MessageBoxOption("Yellow", &yellow));
+	msgOptions.push_back(new MessageBoxOption("Magenta", &magenta));
+	msgOptions.push_back(new MessageBoxOption("Cyan", &cyan));
+
+	DialogTools::ShowMessage("Color Options", "Please choose the heatmap color.", msgOptions);
+
+	if (red) 
+		_hiColor = Color::Get()->GetColor(Palette::Red);
+	else if (green) 
+		_hiColor = Color::Get()->GetColor(Palette::Green);
+	else if (blue) 
+		_hiColor = Color::Get()->GetColor(Palette::Blue);
+	else if (yellow) 
+		_hiColor = Color::Get()->GetColor(Palette::Yellow);
+	else if (magenta) 
+		_hiColor = Color::Get()->GetColor(Palette::Magenta);
+	else if (cyan) 
+		_hiColor = Color::Get()->GetColor(Palette::Cyan);
+}
+
 glm::vec3 Heatmap::GetColor(float t)
 {
 	glm::vec3 color;
@@ -137,15 +173,4 @@ glm::vec3 Heatmap::GetCellColor(int index)
 	index *= 6;
 
 	return glm::vec3(_vData[index + 3], _vData[index + 4], _vData[index + 5]);
-}
-
-glm::vec3 Heatmap::GenerateRandomColor()
-{
-	int r = rand() % 2;
-	int g = rand() % 2;
-	int b = rand() % 2;
-
-	if (r + g + b == 0)
-		return glm::vec3(1);
-	else return glm::vec3(r, g, b);
 }

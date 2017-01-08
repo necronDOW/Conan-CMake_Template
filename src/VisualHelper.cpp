@@ -20,3 +20,34 @@ void DialogTools::ShowMessage(char* title, char* text, std::vector<MessageBoxOpt
 	if (options[buttonID]->response != NULL)
 		*options[buttonID]->response = true;
 }
+
+Color* Color::_instance = NULL;
+
+Color* Color::Get()
+{
+	if (_instance == nullptr)
+		_instance = new Color();
+	return _instance;
+}
+
+glm::vec3 Color::GetColor(Palette choice)
+{
+	return _palette[(int)choice];
+}
+
+glm::vec3 Color::GetColor(unsigned int choice)
+{
+	if (choice < PALETTE_SIZE)
+		return _palette[choice];
+}
+
+glm::vec3 Color::CombineColor(glm::vec3 colorA, glm::vec3 colorB, int constant)
+{
+	if (colorA == glm::vec3(0))
+		return colorB;
+	else if (colorB == glm::vec3(0))
+		return colorA;
+
+	float c = (float)constant;
+	return ((colorA * c) + colorB) / (c + 1);
+}
