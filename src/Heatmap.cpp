@@ -61,8 +61,8 @@ void Heatmap::ApplyHistogram(unsigned int index)
 		Histogram2D* histogram = _histograms[index]->histogram;
 
 		glm::vec3 baseColor = _histograms[index]->color;
-		glm::vec3 midColor = baseColor * 0.66f;
-		glm::vec3 lowColor = baseColor * 0.33f;
+		glm::vec3 midColor = baseColor * 0.3f;
+		glm::vec3 lowColor = baseColor * 0.0f;
 		unsigned int heatmapsVisualised = HeatmapsVisualised();
 
 		for (int i = 0; i < histogram->GetLength(); i++)
