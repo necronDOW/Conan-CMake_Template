@@ -6,7 +6,7 @@ Trajectory::Trajectory(glProgram& program, glm::vec2* vData, unsigned int vSize,
 	: DrawableBase(program, glm::vec3(0))
 {
 	_colorHi = color;
-	_colorLow = _colorHi * 0.33f;
+	_colorLow = _colorHi * 0.0f;
 
 	for (unsigned int i = 0; i < vSize; i++)
 	{
@@ -41,6 +41,7 @@ void Trajectory::Update(float deltaTime)
 
 void Trajectory::MainDraw()
 {
+	glLineWidth(2);
 	glDrawElements(GL_LINES, _eCount * 2, GL_UNSIGNED_INT, 0);
 }
 
