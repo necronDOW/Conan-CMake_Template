@@ -5,7 +5,7 @@ A tool used to aid game designers by visualising positional data in the form of 
 
 ## Instructions
 ### Generating Logs
-1. Download the BatteryTutorial_UE4 [link](https://github.com/necronDOW/BatteryTutorial_UE4 "repository").
+1. Download the BatteryTutorial_UE4 [repository](https://github.com/necronDOW/BatteryTutorial_UE4 "repository").
 2. Open the "BatteryCollector 4.14/BatteryCollector.uproject" within Unreal Engine version 4.14 or higher.
 3. Once loaded, select the "Simulate" button located just above the scene/game view.
 4. Play the game, log files will be generated and stored within "BatteryCollector 4.14/Content/Logs".
