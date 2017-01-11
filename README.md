@@ -5,14 +5,14 @@ A tool used to aid game designers by visualising positional data in the form of 
 
 ## Instructions
 ### Generating Logs
-1. Download the BatteryTutorial_UE4 [repository](https://github.com/necronDOW/BatteryTutorial_UE4 "repository").
+1. Download the BatteryTutorial_UE4 [repository](https://github.com/necronDOW/BatteryTutorial_UE4 "Battery Collector Game repository").
 2. Open the "BatteryCollector 4.14/BatteryCollector.uproject" within Unreal Engine version 4.14 or higher.
 3. Once loaded, select the "Simulate" button located just above the scene/game view.
 4. Play the game, log files will be generated and stored within "BatteryCollector 4.14/Content/Logs".
 
 ### Using the Tool
 #### Running from IDE
-1. If you have not already downloaded this project, do so from [link](https://github.com/necronDOW/Conan-CMake_Template "here").
+1. If you have not already downloaded this project, do so from [here](https://github.com/necronDOW/Conan-CMake_Template "Analytics Tool repository").
 2. Ensure that Conan.io and CMake 3.0 or higher are installed on your machine.
 3. Run "BuildSolution.bat" located within the root directory to create Visual Studio project files.
 4. Open "build/Conan-Cmake_Template.sln" in Visual Studio 2015 or higher.
