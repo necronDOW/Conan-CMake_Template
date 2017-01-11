@@ -25,7 +25,7 @@ class glProgram
 		glProgram operator=(const glProgram& other);
 
 		void Initialize();
-		void LinkShader(GLenum eShaderType, std::string shaderDir);
+		bool LinkShader(GLenum eShaderType, std::string shaderDir);
 		GLuint GetProgram();
 		GLint GetShaderVarLocation(const GLchar* id, ShaderVars type = ShaderVars::Att);
 

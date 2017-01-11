@@ -24,7 +24,7 @@ void glProgram::Initialize()
 	_shaders.clear();
 }
 
-void glProgram::LinkShader(GLenum eShaderType, std::string shaderDir)
+bool glProgram::LinkShader(GLenum eShaderType, std::string shaderDir)
 {
 	DebugTools::Log("Searching for shader (" + shaderDir + ") ...", DebugTools::Info);
 	shaderDir = AssetManager::GetWorkingPath() + shaderDir;
@@ -38,8 +38,14 @@ void glProgram::LinkShader(GLenum eShaderType, std::string shaderDir)
 		if (success == GL_TRUE)
 			DebugTools::Log("Shader created successfully!", DebugTools::Info, 1);
 		else DebugTools::Log("Failed to create shader!", DebugTools::Error, 1);
+
+		return success;
 	}
-	else DebugTools::Log("Shader not found!", DebugTools::Error, 1);
+	else
+	{
+		DebugTools::Log("Shader not found!", DebugTools::Error, 1);
+		return false;
+	}
 }
 
 GLuint glProgram::GetProgram()
